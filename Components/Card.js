@@ -1,0 +1,37 @@
+import React, { useState } from 'react';
+import {
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+
+export default function Card(props) {
+  return (
+    <View style={styles.container} >
+      <Text style={styles.title} >{props.title}</Text>
+      {props.children}
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    padding: 10,
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 1,
+    elevation: 5,
+    marginBottom: 10,
+  },
+  title: {
+  	fontWeight: 'bold',
+    margin: 5,
+  }
+});
