@@ -8,7 +8,7 @@ import {
   Button,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import HalfModal from "../HalfModal"
+import HalfModal from "../Modals/HalfModal"
 import Card from "../Card"
 
 

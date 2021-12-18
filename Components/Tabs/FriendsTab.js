@@ -9,10 +9,9 @@ import {
 import ActionButton from 'react-native-action-button'
 import * as Constants from "../../constants.js"
 import FriendsList from "../FriendsList"
-import HalfModal from "../HalfModal"
 import Card from "../Card.js"
-import AddFriendModal from "../AddFriendModal.js"
-import EditFriendModal from "../EditFriendModal.js"
+import AddFriendModal from "../Modals/AddFriendModal.js"
+import EditFriendModal from "../Modals/EditFriendModal.js"
 
 export default function FriendsTab(props) {
   const [showAddModal, setShowAddModal] = useState(false)

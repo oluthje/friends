@@ -11,7 +11,7 @@ import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
 import FriendsList from "../FriendsList"
-import HalfModal from "../HalfModal"
+import HalfModal from "../Modals/HalfModal"
 
 export default function Dashboard(props) {
   const [showModal, setShowModal] = useState(false)
