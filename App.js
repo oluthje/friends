@@ -41,6 +41,21 @@ const App = () => {
     saveFriends([...friends, friend])
   }
 
+  const handleEditFriend = (name, intimacy, id) => {
+    let newFriends = [...friends]
+
+    for (index in friends) {
+      if (friends[index].id == id) {
+        newFriends[index].name = name
+        newFriends[index].intimacy = intimacy
+        break
+      }
+    }
+    
+    setFriends(newFriends)
+    saveFriends(newFriends)
+  }
+
   const handleRemoveFriend = (friend) => {
     const new_friends = friends.filter(item => item.name !== friend.name)
     setFriends(new_friends)
@@ -80,7 +95,12 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Tabs friends={friends} onAddFriend={handleAddFriend} onRemoveFriend={handleRemoveFriend} />
+      <Tabs
+        friends={friends}
+        onAddFriend={handleAddFriend}
+        onEditFriend={handleEditFriend}
+        onRemoveFriend={handleRemoveFriend}
+      />
     </NavigationContainer>
   );
 };
@@ -91,6 +111,7 @@ function Tabs(props) {
   const commonProps = {
     friends: props.friends,
     onAddFriend: props.onAddFriend,
+    onEditFriend: props.onEditFriend,
     onRemoveFriend: props.onRemoveFriend,
   }
 

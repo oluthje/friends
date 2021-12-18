@@ -27,6 +27,8 @@ export default function elementList(props) {
         key: `${index}`,
         title: element.name,
         value: new Animated.Value(1),
+        intimacy: element.intimacy,
+        id: element.id,
       })))
     }
   }
@@ -47,7 +49,9 @@ export default function elementList(props) {
     }
   }
 
-  const handleItemPress = () => {}
+  const handleItemPress = (item) => {
+    props.onItemPress(item.title, item.intimacy, item.id)
+  }
 
   const renderItem = props => {
     return (
@@ -61,7 +65,7 @@ export default function elementList(props) {
         ]}
       >
         <TouchableHighlight
-          onPress={() => handleItemPress()}
+          onPress={() => handleItemPress(props.item)}
           style={styles.rowFront}
           underlayColor={'#AAA'}
         >

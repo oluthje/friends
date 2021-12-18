@@ -12,22 +12,28 @@ import {
 } from 'react-native'
 import * as Constants from "../constants.js"
 
-export default function HalfModal(props) {
-  const [name, setName] = useState(props.id ? props.name : "")
+export default function EditFriendModal(props) {
+  const [name, setName] = useState("")
   const [intimacyIndex, setIntimacyIndex] = useState(0)
   const visible = props.visible
-  const placeholder = props.id ? "Edit friend" : "New friend"
+  const placeholder = "Edit friend"
+  const friend = props.friend
 
-  // console.log(props)
-  console.log(name)
+  useEffect(() => {
+    setName(friend.name)
 
-  // useEffect(() => {
-  //   console.log("visible")
-  // }, [visible])
+    for (index in Constants.INTIMACIES) {
+      if (Constants.INTIMACIES[index] == friend.intimacy) {
+        setIntimacyIndex(index)
+        console.log(index)
+        break
+      }
+    }
+  }, [friend])
 
   const handleSubmit = () => {
     if (name !== "") {
-      props.onSubmit(name, Constants.INTIMACIES[intimacyIndex], props.id)
+      props.onSubmit(name, Constants.INTIMACIES[intimacyIndex], friend.id)
       props.onClose()
       setName("")
     }
@@ -53,7 +59,7 @@ export default function HalfModal(props) {
             />
             <ToggleButton
               options={Constants.INTIMACIES}
-              startIndex={intimacyIndex}
+              index={intimacyIndex}
               onOptionChange={setIntimacyIndex}
             />
             <View style={{ flexDirection:"row" }}>
@@ -76,18 +82,16 @@ export default function HalfModal(props) {
 }
 
 function ToggleButton(props) {
-  const [option, setOption] = useState(props.startIndex ? props.startIndex : 0)
   const options = props.options
+  const index = props.index
 
   const toggleOptions = () => {
-    const newValue = (option + 1) % options.length
-    console.log(newValue)
-    props.onOptionChange(newValue)
-    setOption(newValue)
+    const newIndex = (index + 1) % options.length
+    props.onOptionChange(newIndex)
   }
 
   return (
-    <Button onPress={() => toggleOptions()} title={options[option]} />
+    <Button onPress={() => toggleOptions()} title={options[index]} />
   )
 }
 

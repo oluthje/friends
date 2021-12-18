@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   StyleSheet,
   View,
@@ -12,22 +12,15 @@ import {
 } from 'react-native'
 import * as Constants from "../constants.js"
 
-export default function HalfModal(props) {
-  const [name, setName] = useState(props.id ? props.name : "")
+export default function AddFriendModal(props) {
+  const [name, setName] = useState("")
   const [intimacyIndex, setIntimacyIndex] = useState(0)
   const visible = props.visible
-  const placeholder = props.id ? "Edit friend" : "New friend"
-
-  // console.log(props)
-  console.log(name)
-
-  // useEffect(() => {
-  //   console.log("visible")
-  // }, [visible])
+  const placeholder = "New friend"
 
   const handleSubmit = () => {
     if (name !== "") {
-      props.onSubmit(name, Constants.INTIMACIES[intimacyIndex], props.id)
+      props.onSubmit(name, Constants.INTIMACIES[intimacyIndex])
       props.onClose()
       setName("")
     }

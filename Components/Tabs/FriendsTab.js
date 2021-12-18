@@ -6,14 +6,18 @@ import {
   Text,
   SafeAreaView,
 } from 'react-native';
+import ActionButton from 'react-native-action-button'
 import * as Constants from "../../constants.js"
 import FriendsList from "../FriendsList"
 import HalfModal from "../HalfModal"
 import Card from "../Card.js"
-import ActionButton from 'react-native-action-button'
+import AddFriendModal from "../AddFriendModal.js"
+import EditFriendModal from "../EditFriendModal.js"
 
 export default function FriendsTab(props) {
-  const [showModal, setShowModal] = useState(false)
+  const [showAddModal, setShowAddModal] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [friendProps, setFriendProps] = useState({})
   const commonProps = props.commonProps
   const friends = commonProps.friends
 
@@ -29,9 +33,22 @@ export default function FriendsTab(props) {
     return friendGroups
   }
 
+  const handleEditFriend = (name, intimacy, id) => {
+    setFriendProps({
+      name: name,
+      intimacy: intimacy,
+      id: id,
+    })
+    setShowEditModal(true)
+  }
+
   const renderCard = ({ item, index }) => (
     <Card title={item[0].intimacy} key={index}>
-      <FriendsList elements={item} onRemoveElement={commonProps.onRemoveFriend}/>
+      <FriendsList
+        elements={item}
+        onRemoveElement={commonProps.onRemoveFriend}
+        onItemPress={handleEditFriend}
+      />
     </Card>
   );
 
@@ -44,15 +61,23 @@ export default function FriendsTab(props) {
           style={styles.cardsContainer}
         />
       </SafeAreaView>
-      <HalfModal
-        visible={showModal}
-        onClose={() => setShowModal(false)}
-        onSubmit={(friend, intimacy) => commonProps.onAddFriend(friend, intimacy)}
-        placeholder="New friend"
+      <AddFriendModal
+        visible={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onSubmit={commonProps.onAddFriend}
+      />
+      <EditFriendModal
+        visible={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        onSubmit={commonProps.onEditFriend}
+        // name={friendProps ? friendProps.name : null}
+        // intimacy={friendProps ? friendProps.intimacy : null}
+        // id={friendProps ? friendProps.id : null}
+        friend={friendProps}
       />
       <ActionButton
         buttonColor="rgba(231,76,60,1)"
-        onPress={() => setShowModal(true)}
+        onPress={() => setShowAddModal(true)}
       />
     </View>
   );
