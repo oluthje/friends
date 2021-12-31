@@ -5,14 +5,15 @@ import {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity,
 } from 'react-native';
 
 export default function Card(props) {
   return (
-    <View style={styles.container} >
+    <TouchableOpacity style={styles.container} onLongPress={props.onLongPress}>
       <Text style={styles.title} >{props.title}</Text>
       {props.children}
-    </View>
+    </TouchableOpacity>
   )
 }
 

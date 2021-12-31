@@ -6,6 +6,7 @@ import {
   Text,
   View,
   Button,
+  Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import AddGroupModal from "../Modals/AddGroupModal"
@@ -30,6 +31,12 @@ export default function GroupsTab(props) {
     var group = new Group(name, color)
     setGroups(groups => [...groups, group])
     saveGroups([...groups, group])
+  }
+
+  const handleRemoveGroup = (group) => {
+    const new_groups = groups.filter(item => item.id !== group.id)
+    setGroups(new_groups)
+    saveGroups(new_groups)
   }
 
   const saveGroups = async (groups) => {
@@ -63,6 +70,19 @@ export default function GroupsTab(props) {
     }
   }
 
+  const createGroupDeleteAlert = (group) =>
+    Alert.alert(
+      `Delete the group '${group.name}'?`,
+      "",
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        { text: "Delete", onPress: () => handleRemoveGroup(group) }
+      ]
+    );
+
   const content = (
     <View>
       <View style={{alignSelf: "flex-end"}} >
@@ -72,7 +92,7 @@ export default function GroupsTab(props) {
   )
 
   const cards = groups.map((group) =>
-    <Card title={group.name}>
+    <Card title={group.name} onLongPress={() => createGroupDeleteAlert(group)}>
       <View>
         <View style={{alignSelf: "flex-end"}} >
           <Button title={"Add"}></Button>
@@ -97,8 +117,6 @@ export default function GroupsTab(props) {
     </SafeAreaView>
   );
 };
-
-// for each group, make flatlist with two columns
 
 const styles = StyleSheet.create({
   container: {
