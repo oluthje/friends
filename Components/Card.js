@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react'
 import {
-  SafeAreaView,
-  StatusBar,
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
-} from 'react-native';
+} from 'react-native'
 
 export default function Card(props) {
   return (
@@ -35,4 +33,4 @@ const styles = StyleSheet.create({
   	fontWeight: 'bold',
     margin: 5,
   }
-});
+})

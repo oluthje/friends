@@ -1,12 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export const saveObjs = async (key, objs) => {
-  console.log()
-  console.log(key)
-  console.log(objs)
   var objectStrings = []
-  for (key in objs) {
-    objectStrings.push(JSON.stringify(objs[key]))
+  for (i in objs) {
+    objectStrings.push(JSON.stringify(objs[i]))
   }
 
   try {
@@ -23,14 +20,11 @@ export const getSavedObjs = async (key, setValue) => {
     const parsedValues = JSON.parse(values)
     var parsedObjs = []
 
-    for (key in parsedValues) {
-      const group = JSON.parse(parsedValues[key])
+    for (i in parsedValues) {
+      const group = JSON.parse(parsedValues[i])
       parsedObjs.push(group)
     }
-    
-    // return parsedObjs
-    console.log("SAVED STUFF")
-    console.log(parsedObjs)
+
     setValue(parsedObjs)
   } catch(e) {
     // error
