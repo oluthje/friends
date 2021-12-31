@@ -1,39 +1,38 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-export const saveData = async (key, value) => {
+export const saveObjs = async (key, objs) => {
+  console.log()
+  console.log(key)
+  console.log(objs)
+  var objectStrings = []
+  for (key in objs) {
+    objectStrings.push(JSON.stringify(objs[key]))
+  }
+
   try {
-    const jsonValue = JSON.stringify(parsedValues)
-    await AsyncStorage.setItem('@' + key, jsonValue)
+    const jsonValue = JSON.stringify(objectStrings)
+    await AsyncStorage.setItem("@" + key, jsonValue)
   } catch (e) {
-    // error
+
   }
 }
 
-export const getData = async (key) => {
-  console.log("try get DS value")
+export const getSavedObjs = async (key, setValue) => {
   try {
-    const value = await AsyncStorage.getItem("@friends")//'@' + key)
-    console.log("DS value: ")
-    console.log(value)
-    // if(value !== null) {
-    //   const parsedValue = JSON.parse(value)
-    //   return parsedValue
-    // }
-    return value
+    const values = await AsyncStorage.getItem("@" + key)
+    const parsedValues = JSON.parse(values)
+    var parsedObjs = []
+
+    for (key in parsedValues) {
+      const group = JSON.parse(parsedValues[key])
+      parsedObjs.push(group)
+    }
+    
+    // return parsedObjs
+    console.log("SAVED STUFF")
+    console.log(parsedObjs)
+    setValue(parsedObjs)
   } catch(e) {
     // error
   }
 }
-
-export const clearAll = async () => {
-  try {
-    await AsyncStorage.clear()
-  } catch(e) {
-    // clear error
-  }
-}
-
-
-// store objects in array in useState
-
-// when saving, convert each object to string, then add string to array to be saved.

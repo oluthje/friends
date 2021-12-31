@@ -28,11 +28,10 @@ export function Friend(name, intimacy, groups) {
 }
 
 const App = () => {
-  const [friends, setFriends] = useState([]);
+  const [friends, setFriends] = useState([])
 
   useEffect(() => {
     getFriends()
-    setFriends([])
   }, [])
 
   const handleAddFriend = (name, intimacy) => {

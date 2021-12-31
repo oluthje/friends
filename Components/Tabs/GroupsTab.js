@@ -8,11 +8,17 @@ import {
   Button,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import HalfModal from "../Modals/HalfModal"
+import AddGroupModal from "../Modals/AddGroupModal"
 import Card from "../Card"
+import uuid from 'react-native-uuid'
 
+export function Group(name, color) {
+  this.name = name
+  this.color = color
+  this.id = uuid.v4()
+}
 
-export default function GroupsTab() {
+export default function GroupsTab(props) {
   const [showModal, setShowModal] = useState(false)
   const [groups, setGroups] = useState([])
 
@@ -20,30 +26,41 @@ export default function GroupsTab() {
     getGroups()
   }, [])
 
-  const getGroups = async (value) => {
+  const handleAddGroup = (name, color) => {
+    var group = new Group(name, color)
+    setGroups(groups => [...groups, group])
+    saveGroups([...groups, group])
+  }
+
+  const saveGroups = async (groups) => {
+    var objectStrings = []
+    for (key in groups) {
+      objectStrings.push(JSON.stringify(groups[key]))
+    }
+
     try {
-      const value = await AsyncStorage.getItem('@groups')
-      if(value !== null) {
-        const parsedValue = JSON.parse(value)
-        setGroups(parsedValue)
+      const jsonValue = JSON.stringify(objectStrings)
+      await AsyncStorage.setItem("@groups", jsonValue)
+    } catch (e) {
+
+    }
+  }
+
+  const getGroups = async () => {
+    try {
+      const values = await AsyncStorage.getItem("@groups")
+      const parsedValues = JSON.parse(values)
+      var parsedGroups = []
+
+      for (key in parsedValues) {
+        const group = JSON.parse(parsedValues[key])
+        parsedGroups.push(group)
       }
+      
+      setGroups(parsedGroups)
     } catch(e) {
       // error
     }
-  }
-
-  const saveGroups = async (value) => {
-    try {
-      const jsonValue = JSON.stringify(value)
-      await AsyncStorage.setItem('@groups', jsonValue)
-    } catch (e) {
-      // error
-    }
-  }
-
-  const handleAddGroup = (group) => {
-    setGroups(groups => [...groups, group])
-    saveGroups([...groups, group])
   }
 
   const content = (
@@ -55,7 +72,7 @@ export default function GroupsTab() {
   )
 
   const cards = groups.map((group) =>
-    <Card title={group}>
+    <Card title={group.name}>
       <View>
         <View style={{alignSelf: "flex-end"}} >
           <Button title={"Add"}></Button>
@@ -68,10 +85,10 @@ export default function GroupsTab() {
     <SafeAreaView style={styles.container} >
       {groups.length === 0 ? <Text style={styles.hintText} >Try adding a group!</Text> : null}
       {cards}
-      <HalfModal
+      <AddGroupModal
         visible={showModal}
         onClose={() => setShowModal(false)}
-        onSubmit={(group) => handleAddGroup(group)}
+        onSubmit={handleAddGroup}
         placeholder="New Group"
       />
       <View>
