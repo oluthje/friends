@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
@@ -10,8 +9,8 @@ import {
 import { saveObjs, getSavedObjs } from "../../datastorage.js"
 import AddGroupModal from "../Modals/AddGroupModal"
 import Card from "../Card"
-import uuid from 'react-native-uuid'
 import * as Constants from "../../constants.js"
+import ActionButton from 'react-native-action-button'
 
 export default function GroupsTab(props) {
   const [showModal, setShowModal] = useState(false)
@@ -46,14 +45,6 @@ export default function GroupsTab(props) {
       ]
     );
 
-  const content = (
-    <View>
-      <View style={{alignSelf: "flex-end"}} >
-        <Button title={"Add"}></Button>
-      </View>
-    </View>
-  )
-
   const cards = groups.map((group) =>
     <Card title={group.name} onLongPress={() => createGroupDeleteAlert(group)}>
       <View>
@@ -65,26 +56,31 @@ export default function GroupsTab(props) {
   )
 
   return (
-    <SafeAreaView style={styles.container} >
+    <View style={styles.container} >
       {groups.length === 0 ? <Text style={styles.hintText} >Try adding a group!</Text> : null}
-      {cards}
+      <View style={styles.cardsContainer} >
+        {cards}
+      </View>
       <AddGroupModal
         visible={showModal}
         onClose={() => setShowModal(false)}
         onSubmit={handleAddGroup}
         placeholder="New Group"
       />
-      <View>
-        <Button onPress={() => setShowModal(true)} title={"Add Group"} />
-      </View>
-    </SafeAreaView>
+      <ActionButton
+        buttonColor="rgba(231,76,60,1)"
+        onPress={() => setShowModal(true)}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  cardsContainer: {
     margin: 20,
-    padding: 20,
   },
   hintText: {
     color: 'grey',
