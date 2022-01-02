@@ -65,6 +65,7 @@ export default function elementList(props) {
         ]}
       >
         <TouchableHighlight
+          disabled={props.disabled}
           onPress={() => handleItemPress(props.item)}
           style={styles.rowFront}
           underlayColor={'#AAA'}
@@ -91,6 +92,7 @@ export default function elementList(props) {
     <View style={styles.container}>
       <SwipeListView
         disableRightSwipe
+        disableLeftSwipe={props.disabled}
         data={listData}
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}

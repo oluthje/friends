@@ -7,23 +7,42 @@ import {
   Alert,
 } from 'react-native';
 import { saveObjs, getSavedObjs } from "../../datastorage.js"
-import AddGroupModal from "../Modals/AddGroupModal"
+import AddGroupModal from "../Modals/AddGroupModal.js"
+import SelectFriendsModal from "../Modals/SelectFriendsModal.js"
 import Card from "../Card"
 import * as Constants from "../../constants.js"
 import ActionButton from 'react-native-action-button'
+import FriendsList from "../FriendsList"
 
 export default function GroupsTab(props) {
-  const [showModal, setShowModal] = useState(false)
+  const [showGroupModal, setShowGroupModal] = useState(false)
+  const [showFriendsModal, setShowFriendsModal] = useState(false)
+  const [friendIds, setFriendIds] = useState([])
   const [groups, setGroups] = useState([])
+  const [selectedGroup, setSelectedGroup] = useState()
 
   useEffect(() => {
     getSavedObjs(Constants.GROUPS_KEY, setGroups)
   }, [])
 
   const handleAddGroup = (name, color) => {
-    var group = new Contants.Group(name, color)
+    var group = new Constants.Group(name, color, [])
     setGroups(groups => [...groups, group])
     saveObjs(Constants.GROUPS_KEY, [...groups, group])
+  }
+
+  const handleUpdateGroupFriends = (ids) => {
+    let newGroups = [...groups]
+
+    for (index in groups) {
+      if (groups[index].id == selectedGroup.id) {
+        newGroups[index].friends = ids
+        break
+      }
+    }
+    
+    setGroups(newGroups)
+    saveObjs(Constants.GROUPS_KEY, newGroups)
   }
 
   const handleRemoveGroup = (group) => {
@@ -45,11 +64,31 @@ export default function GroupsTab(props) {
       ]
     );
 
+  const setUpFriendsModal = group => {
+    setShowFriendsModal(true)
+    setSelectedGroup(group)
+    setFriendIds(group.friends ? group.friends : [])
+  }
+
+  const getFriendsByIds = ids => {
+    let friends = []
+    for (i in props.commonProps.friends) {
+      const friend = props.commonProps.friends[i]
+      if (ids.includes(friend.id)) {
+        friends.push(friend)
+      }
+    }
+    return friends
+  }
+
   const cards = groups.map((group) =>
     <Card title={group.name} onLongPress={() => createGroupDeleteAlert(group)}>
       <View>
+        <FriendsList
+          elements={getFriendsByIds(group.friends)}
+        />
         <View style={{alignSelf: "flex-end"}} >
-          <Button title={"Add"}></Button>
+          <Button title={"Edit"} onPress={() => setUpFriendsModal(group)} ></Button>
         </View>
       </View>
     </Card>
@@ -62,14 +101,22 @@ export default function GroupsTab(props) {
         {cards}
       </View>
       <AddGroupModal
-        visible={showModal}
-        onClose={() => setShowModal(false)}
+        visible={showGroupModal}
+        onClose={() => setShowGroupModal(false)}
         onSubmit={handleAddGroup}
         placeholder="New Group"
       />
+      <SelectFriendsModal
+        visible={showFriendsModal}
+        onClose={() => setShowFriendsModal(false)}
+        onSubmit={handleUpdateGroupFriends}
+        friendIds={friendIds}
+        setFriendIds={setFriendIds}
+        friends={props.commonProps.friends}
+      />
       <ActionButton
         buttonColor="rgba(231,76,60,1)"
-        onPress={() => setShowModal(true)}
+        onPress={() => setShowGroupModal(true)}
       />
     </View>
   );

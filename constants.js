@@ -17,9 +17,10 @@ export const INTIMACIES = [
 ]
 
 // object creation
-export function Group(name, color) {
+export function Group(name, color, friends) {
   this.name = name
   this.color = color
+  this.friends = friends
   this.id = uuid.v4()
 }
 export function Friend(name, intimacy, groups) {
