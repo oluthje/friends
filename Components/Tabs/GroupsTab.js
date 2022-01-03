@@ -13,6 +13,7 @@ import Card from "../Card"
 import * as Constants from "../../constants.js"
 import ActionButton from 'react-native-action-button'
 import FriendsList from "../FriendsList"
+import Tag from "../Tag.js"
 
 export default function GroupsTab(props) {
   const [showGroupModal, setShowGroupModal] = useState(false)
@@ -82,7 +83,11 @@ export default function GroupsTab(props) {
   }
 
   const cards = groups.map((group) =>
-    <Card title={group.name} onLongPress={() => createGroupDeleteAlert(group)}>
+    <Card onLongPress={() => createGroupDeleteAlert(group)}>
+      <View style={styles.oneLine} >
+        <Text style={{ fontWeight: 'bold', margin: 5, }} >{group.name}</Text>
+        <Tag color={group.color} width="13%" />
+      </View>
       <View>
         <FriendsList
           disabled={true}
@@ -133,5 +138,9 @@ const styles = StyleSheet.create({
   hintText: {
     color: 'grey',
     textAlign: 'center',
-  }
+  },
+  oneLine: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 });

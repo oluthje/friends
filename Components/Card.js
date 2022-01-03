@@ -9,7 +9,7 @@ import {
 export default function Card(props) {
   return (
     <TouchableOpacity style={styles.container} onLongPress={props.onLongPress}>
-      <Text style={styles.title} >{props.title}</Text>
+      {props.title ? <Text style={styles.title} >{props.title}</Text> : null}
       {props.children}
     </TouchableOpacity>
   )
@@ -32,5 +32,5 @@ const styles = StyleSheet.create({
   title: {
   	fontWeight: 'bold',
     margin: 5,
-  }
+  },
 })
