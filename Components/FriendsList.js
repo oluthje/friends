@@ -50,7 +50,9 @@ export default function elementList(props) {
   }
 
   const handleItemPress = (item) => {
-    props.onItemPress(item.title, item.intimacy, item.id)
+    if (!props.disabled) {
+      props.onItemPress(item.title, item.intimacy, item.id)
+    }
   }
 
   const renderItem = props => {

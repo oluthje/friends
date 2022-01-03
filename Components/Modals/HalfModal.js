@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   modalView: {
     backgroundColor: "white",
     borderRadius: 15,
-    height: '50%',
+    height: '70%',
     marginTop: 'auto',
     marginHorizontal: 'auto',
     width: '100%',

@@ -85,6 +85,7 @@ export default function GroupsTab(props) {
     <Card title={group.name} onLongPress={() => createGroupDeleteAlert(group)}>
       <View>
         <FriendsList
+          disabled={true}
           elements={getFriendsByIds(group.friends)}
         />
         <View style={{alignSelf: "flex-end"}} >
