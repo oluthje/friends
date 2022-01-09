@@ -41,7 +41,7 @@ export default function SelectFriendsModal(props) {
       }
 
       items.push(
-        <TouchableOpacity onPress={() => handleFriendPress(friend)} style={styles.item} >
+        <TouchableOpacity key={friend.id} onPress={() => handleFriendPress(friend)} style={styles.item} >
           <Text>{friend.name}</Text>
         </TouchableOpacity>
       )

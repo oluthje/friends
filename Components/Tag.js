@@ -6,16 +6,24 @@ import {
 } from 'react-native'
 
 export default function Tag(props) {
+  const propStyles = {
+    backgroundColor: props.color,
+    width: props.width,
+  }
   return (
-    <View style={[styles.oval, { backgroundColor: props.color }, { width: props.width }]} >
-      <Text style={{ color: 'white' }} >{props.title}</Text>
+    <View style={[styles.container, props.style, propStyles]} >
+      <Text style={styles.title} >{props.title}</Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  oval: {
-    padding: 5,
+  container: {
+    padding: 4,
     borderRadius: 12,
+    margin: 2,
+  },
+  title: {
+    color: 'white',
   }
 })

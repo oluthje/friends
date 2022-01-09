@@ -69,9 +69,6 @@ export default function FriendsTab(props) {
         visible={showEditModal}
         onClose={() => setShowEditModal(false)}
         onSubmit={commonProps.onEditFriend}
-        // name={friendProps ? friendProps.name : null}
-        // intimacy={friendProps ? friendProps.intimacy : null}
-        // id={friendProps ? friendProps.id : null}
         friend={friendProps}
       />
       <ActionButton
@@ -88,5 +85,5 @@ const styles = StyleSheet.create({
   },
   cardsContainer: {
     margin: 20,
-  }
+  },
 });

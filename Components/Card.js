@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native'
+import * as Constants from "./../constants.js"
 
 export default function Card(props) {
   return (
@@ -31,6 +32,6 @@ const styles = StyleSheet.create({
   },
   title: {
   	fontWeight: 'bold',
-    margin: 5,
+    fontSize: Constants.CARD_TITLE_FONTSIZE,
   },
 })

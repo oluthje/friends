@@ -85,7 +85,7 @@ export default function GroupsTab(props) {
   const cards = groups.map((group) =>
     <Card onLongPress={() => createGroupDeleteAlert(group)}>
       <View style={styles.oneLine} >
-        <Text style={{ fontWeight: 'bold', margin: 5, }} >{group.name}</Text>
+        <Text style={{ fontWeight: 'bold', fontSize: Constants.CARD_TITLE_FONTSIZE }} >{group.name}</Text>
         <Tag color={group.color} width="13%" />
       </View>
       <View>

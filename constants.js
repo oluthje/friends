@@ -15,6 +15,7 @@ export const INTIMACIES = [
 	INTIMACY.MODERATE,
 	INTIMACY.NEW,
 ]
+export const CARD_TITLE_FONTSIZE = 16
 
 // object creation
 export function Group(name, color, friends) {

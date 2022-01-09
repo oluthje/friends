@@ -9,6 +9,7 @@ import {
   TouchableHighlight,
 } from 'react-native'
 import { SwipeListView } from 'react-native-swipe-list-view'
+import Tag from "./Tag.js"
 
 export default function elementList(props) {
   const [listData, setListData] = useState()
@@ -70,10 +71,14 @@ export default function elementList(props) {
           disabled={props.disabled}
           onPress={() => handleItemPress(props.item)}
           style={styles.rowFront}
-          underlayColor={'#AAA'}
+          underlayColor={'lightgrey'}
         >
-          <View>
-            <Text>{props.item.title}</Text>
+          <View style={styles.oneLine} >
+            <Text style={styles.rowFrontText} >{props.item.title}</Text>
+            <View style={{ flexDirection: 'row' }}>
+              <Tag color={"red"} title="Climbing" style={{ marginHorizontal: 2 }} />
+              <Tag color={"blue"} title="UCSC" style={{ marginHorizontal: 2 }} />
+            </View>
           </View>
         </TouchableHighlight>
       </Animated.View>
@@ -106,7 +111,6 @@ export default function elementList(props) {
   )
 }
 
-const row_padding = 5
 const row_height = 30
 const styles = StyleSheet.create({
   container: {
@@ -116,30 +120,18 @@ const styles = StyleSheet.create({
     color: '#FFF',
   },
   rowFront: {
+    flex: 1,
     backgroundColor: "white",
-    alignItems: "baseline",
     borderRadius: 5,
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2
-    // },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 1,
-    // elevation: 5,
-    // borderColor: 'grey',
-    // borderWidth: 1,
-    padding: row_padding,
-    // marginVertical: 2
+  },
+  rowFrontText: {
+    alignSelf: 'center',
   },
   rowBack: {
-    backgroundColor: 'red',
-    alignItems: 'center',
-    borderRadius: 10,
     flex: 1,
-    flexDirection: 'row',
+    backgroundColor: 'red',
+    borderRadius: 10,
     justifyContent: 'space-between',
-    padding: row_padding,
-    marginVertical: 5,
     marginLeft: 5,
   },
   backRightBtn: {
@@ -154,5 +146,9 @@ const styles = StyleSheet.create({
   backRightBtnRight: {
     backgroundColor: 'red',
     right: 0,
+  },
+  oneLine: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 })
