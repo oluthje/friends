@@ -56,11 +56,11 @@ export default function elementList(props) {
     }
   }
 
-  const renderItem = props => {
+  const renderItem = ({ item }) => {
     return (
       <Animated.View
         style={[styles.rowFrontContainer, {
-            height: props.item.value.interpolate({
+            height: item.value.interpolate({
               inputRange: [0, 1],
               outputRange: [0, row_height],
             }),
@@ -69,15 +69,18 @@ export default function elementList(props) {
       >
         <TouchableHighlight
           disabled={props.disabled}
-          onPress={() => handleItemPress(props.item)}
+          onPress={() => handleItemPress(item)}
           style={styles.rowFront}
           underlayColor={'lightgrey'}
         >
           <View style={styles.oneLine} >
-            <Text style={styles.rowFrontText} >{props.item.title}</Text>
+            <View style={styles.rowFrontText} >
+              <Text>{item.title}</Text>
+            </View>
             <View style={{ flexDirection: 'row' }}>
-              <Tag color={"red"} title="Climbing" style={{ marginHorizontal: 2 }} />
-              <Tag color={"blue"} title="UCSC" style={{ marginHorizontal: 2 }} />
+              {props.tags ? props.tags[item.id].map((tag) =>
+                <Tag title={tag[0]} color={tag[1]} style={{ marginHorizontal: 2 }} />
+              ) : null}
             </View>
           </View>
         </TouchableHighlight>
@@ -123,9 +126,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     borderRadius: 5,
+    justifyContent: 'center',
   },
   rowFrontText: {
-    alignSelf: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column'
+  },
+  oneLine: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   rowBack: {
     flex: 1,
@@ -146,9 +155,5 @@ const styles = StyleSheet.create({
   backRightBtnRight: {
     backgroundColor: 'red',
     right: 0,
-  },
-  oneLine: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
 })

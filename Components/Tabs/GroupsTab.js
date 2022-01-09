@@ -88,7 +88,7 @@ export default function GroupsTab({ commonProps }) {
         friendIds={friendIds}
         setFriendIds={setFriendIds}
         friends={commonProps.friends}
-        groupId={selectedGroup.id}
+        groupId={selectedGroup ? selectedGroup.id : null}
       />
       <ActionButton
         buttonColor="rgba(231,76,60,1)"

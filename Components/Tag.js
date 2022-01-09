@@ -9,6 +9,7 @@ export default function Tag(props) {
   const propStyles = {
     backgroundColor: props.color,
     width: props.width,
+    maxWidth: 50,
   }
   return (
     <View style={[styles.container, props.style, propStyles]} >
@@ -25,5 +26,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
+    fontWeight: 'bold',
+    fontSize: 12,
   }
 })

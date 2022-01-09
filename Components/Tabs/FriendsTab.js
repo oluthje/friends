@@ -19,6 +19,16 @@ export default function FriendsTab(props) {
   const [friendProps, setFriendProps] = useState({})
   const commonProps = props.commonProps
   const friends = commonProps.friends
+  const groups = commonProps.groups
+
+  const handleEditFriend = (name, intimacy, id) => {
+    setFriendProps({
+      name: name,
+      intimacy: intimacy,
+      id: id,
+    })
+    setShowEditModal(true)
+  }
 
   const getIntimacyGroups = () => {
     var friendGroups = []
@@ -32,19 +42,28 @@ export default function FriendsTab(props) {
     return friendGroups
   }
 
-  const handleEditFriend = (name, intimacy, id) => {
-    setFriendProps({
-      name: name,
-      intimacy: intimacy,
-      id: id,
+  const getFriendGroupTags = () => {
+    let tag_dict = {}
+    friends.forEach((friend) => {
+      tag_dict[friend.id] = []
     })
-    setShowEditModal(true)
+
+    friends.forEach((friend) => {
+      groups.forEach((group) => {
+        if (group.friends.includes(friend.id)) {
+          tag_dict[friend.id].push([group.name, group.color])
+        }
+      })
+    })
+
+    return tag_dict
   }
 
   const renderCard = ({ item, index }) => (
     <Card title={item[0].intimacy} key={index}>
       <FriendsList
         elements={item}
+        tags={getFriendGroupTags()}
         onRemoveElement={commonProps.onRemoveFriend}
         onItemPress={handleEditFriend}
       />
