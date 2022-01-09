@@ -14,9 +14,10 @@ export default function SelectFriendsModal(props) {
   const friendIds = props.friendIds
   const friends = props.friends
   const setFriendIds = props.setFriendIds
+  const groupId = props.groupId
 
   const handleSubmit = () => {
-    props.onSubmit(friendIds)
+    props.onSubmit(friendIds, groupId)
     props.onClose()
   }
 

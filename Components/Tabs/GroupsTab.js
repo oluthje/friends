@@ -6,7 +6,6 @@ import {
   Button,
   Alert,
 } from 'react-native';
-import { saveObjs, getSavedObjs } from "../../datastorage.js"
 import AddGroupModal from "../Modals/AddGroupModal.js"
 import SelectFriendsModal from "../Modals/SelectFriendsModal.js"
 import Card from "../Card"
@@ -15,42 +14,12 @@ import ActionButton from 'react-native-action-button'
 import FriendsList from "../FriendsList"
 import Tag from "../Tag.js"
 
-export default function GroupsTab(props) {
+export default function GroupsTab({ commonProps }) {
   const [showGroupModal, setShowGroupModal] = useState(false)
   const [showFriendsModal, setShowFriendsModal] = useState(false)
   const [friendIds, setFriendIds] = useState([])
-  const [groups, setGroups] = useState([])
   const [selectedGroup, setSelectedGroup] = useState()
-
-  useEffect(() => {
-    getSavedObjs(Constants.GROUPS_KEY, setGroups)
-  }, [])
-
-  const handleAddGroup = (name, color) => {
-    var group = new Constants.Group(name, color, [])
-    setGroups(groups => [...groups, group])
-    saveObjs(Constants.GROUPS_KEY, [...groups, group])
-  }
-
-  const handleUpdateGroupFriends = (ids) => {
-    let newGroups = [...groups]
-
-    for (index in groups) {
-      if (groups[index].id == selectedGroup.id) {
-        newGroups[index].friends = ids
-        break
-      }
-    }
-    
-    setGroups(newGroups)
-    saveObjs(Constants.GROUPS_KEY, newGroups)
-  }
-
-  const handleRemoveGroup = (group) => {
-    const new_groups = groups.filter(item => item.id !== group.id)
-    setGroups(new_groups)
-    saveObjs(Constants.GROUPS_KEY, new_groups)
-  }
+  const groups = commonProps.groups
 
   const createGroupDeleteAlert = (group) =>
     Alert.alert(
@@ -61,7 +30,7 @@ export default function GroupsTab(props) {
           text: "Cancel",
           style: "cancel"
         },
-        { text: "Delete", onPress: () => handleRemoveGroup(group) }
+        { text: "Delete", onPress: () => commonProps.onRemoveGroup(group) }
       ]
     );
 
@@ -73,8 +42,8 @@ export default function GroupsTab(props) {
 
   const getFriendsByIds = ids => {
     let friends = []
-    for (i in props.commonProps.friends) {
-      const friend = props.commonProps.friends[i]
+    for (i in commonProps.friends) {
+      const friend = commonProps.friends[i]
       if (ids.includes(friend.id)) {
         friends.push(friend)
       }
@@ -109,16 +78,17 @@ export default function GroupsTab(props) {
       <AddGroupModal
         visible={showGroupModal}
         onClose={() => setShowGroupModal(false)}
-        onSubmit={handleAddGroup}
+        onSubmit={commonProps.onAddGroup}
         placeholder="New Group"
       />
       <SelectFriendsModal
         visible={showFriendsModal}
         onClose={() => setShowFriendsModal(false)}
-        onSubmit={handleUpdateGroupFriends}
+        onSubmit={commonProps.onEditGroup}
         friendIds={friendIds}
         setFriendIds={setFriendIds}
-        friends={props.commonProps.friends}
+        friends={commonProps.friends}
+        groupId={selectedGroup.id}
       />
       <ActionButton
         buttonColor="rgba(231,76,60,1)"

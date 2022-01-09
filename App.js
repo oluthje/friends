@@ -11,9 +11,11 @@ import GroupsTab from "./Components/Tabs/GroupsTab"
 
 const App = () => {
   const [friends, setFriends] = useState([])
+  const [groups, setGroups] = useState([])
 
   useEffect(() => {
     getSavedObjs(Constants.FRIENDS_KEY, setFriends)
+    getSavedObjs(Constants.GROUPS_KEY, setGroups)
   }, [])
 
   const handleAddFriend = (name, intimacy) => {
@@ -43,26 +45,51 @@ const App = () => {
     saveObjs(Constants.FRIENDS_KEY, new_friends)
   }
 
+  const handleAddGroup = (name, color) => {
+    var group = new Constants.Group(name, color, [])
+    setGroups(groups => [...groups, group])
+    saveObjs(Constants.GROUPS_KEY, [...groups, group])
+  }
+
+  const handleEditGroup = (ids, id) => {
+    let newGroups = [...groups]
+
+    for (index in groups) {
+      if (groups[index].id == id) {
+        newGroups[index].friends = ids
+        break
+      }
+    }
+    
+    setGroups(newGroups)
+    saveObjs(Constants.GROUPS_KEY, newGroups)
+  }
+
+  const handleRemoveGroup = (group) => {
+    const new_groups = groups.filter(item => item.id !== group.id)
+    setGroups(new_groups)
+    saveObjs(Constants.GROUPS_KEY, new_groups)
+  }
+
   return (
     <NavigationContainer>
       <Tabs
-        friends={friends}
-        onAddFriend={handleAddFriend}
-        onEditFriend={handleEditFriend}
-        onRemoveFriend={handleRemoveFriend}
+        commonProps={{
+          friends: friends,
+          onAddFriend: handleAddFriend,
+          onEditFriend: handleEditFriend,
+          onRemoveFriend: handleRemoveFriend,
+          groups: groups,
+          onAddGroup: handleAddGroup,
+          onEditGroup: handleEditGroup,
+          onRemoveGroup: handleRemoveGroup,
+        }}
       />
     </NavigationContainer>
-  );
-};
+  )
+}
 
-function Tabs(props) {
-  const commonProps = {
-    friends: props.friends,
-    onAddFriend: props.onAddFriend,
-    onEditFriend: props.onEditFriend,
-    onRemoveFriend: props.onRemoveFriend,
-  }
-
+function Tabs({ commonProps }) {
   const Tab = createBottomTabNavigator()
 
   return (
@@ -73,4 +100,4 @@ function Tabs(props) {
   )
 }
 
-export default App;
+export default App
