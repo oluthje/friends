@@ -4,18 +4,23 @@ import {
   View,
   TextInput,
   Button,
+  Text,
+  TouchableHighlight,
 } from 'react-native'
 import * as Constants from "../../constants.js"
 import HalfModal from "./HalfModal.js"
 import ToggleButton from "./ToggleButton.js"
+import ToggleableTag from "../ToggleableTag.js"
 
 export default function EditFriendModal(props) {
   const [name, setName] = useState("")
   const [intimacyIndex, setIntimacyIndex] = useState(0)
+  const [selectedGroupIds, setSelectedGroupIds] = useState([])
   const friend = props.friend
 
   useEffect(() => {
     setName(friend.name)
+    setSelectedGroupIds(friend.selectedGroupIds)
 
     for (index in Constants.INTIMACIES) {
       if (Constants.INTIMACIES[index] == friend.intimacy) {
@@ -27,9 +32,17 @@ export default function EditFriendModal(props) {
 
   const handleSubmit = () => {
     if (name !== "") {
-      props.onSubmit(name, Constants.INTIMACIES[intimacyIndex], friend.id)
+      props.onSubmit(name, Constants.INTIMACIES[intimacyIndex], friend.id, selectedGroupIds)
       props.onClose()
       setName("")
+    }
+  }
+
+  const handleTagToggle = (id) => {
+    if (selectedGroupIds.includes(id)) {
+      setSelectedGroupIds(selectedGroupIds.filter(groupId => groupId !== id))
+    } else {
+      setSelectedGroupIds([...selectedGroupIds, id])
     }
   }
 
@@ -60,6 +73,19 @@ export default function EditFriendModal(props) {
           onPress={() => handleSubmit()}
         />
       </View>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', margin: 20 }}>
+        {friend.groups ? friend.groups.map((group) =>
+          <ToggleableTag
+            title={group.name}
+            color={group.color}
+            key={group.id}
+            id={group.id}
+            style={{ marginHorizontal: 2 }}
+            onTagToggle={handleTagToggle}
+            selected={selectedGroupIds.includes(group.id)}
+          />
+        ) : null}
+      </View>
     </HalfModal>
   )
 }
@@ -70,5 +96,12 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingTop: 30,
     paddingHorizontal: 30,
+  },
+  groupTagContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    margin: 20,
   },
 });

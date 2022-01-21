@@ -24,9 +24,10 @@ const App = () => {
     saveObjs(Constants.FRIENDS_KEY, [...friends, friend])
   }
 
-  const handleEditFriend = (name, intimacy, id) => {
+  const handleEditFriend = (name, intimacy, id, groupIds) => {
+    
+    // update friend
     let newFriends = [...friends]
-
     for (index in friends) {
       if (friends[index].id == id) {
         newFriends[index].name = name
@@ -34,9 +35,26 @@ const App = () => {
         break
       }
     }
-    
+
     setFriends(newFriends)
     saveObjs(Constants.FRIENDS_KEY, newFriends)
+
+    // update groups
+    // for each group, if group doesn't have (friend)id add friend. Else remove friend
+    let newGroups = [...groups]
+    newGroups.forEach((group) => {
+      if (groupIds.includes(group.id)) {
+        if (!group.friends.includes(id)) {
+          group.friends = [...group.friends, id]
+        }
+      } else {
+        if (group.friends.includes(id)) {
+          group.friends = group.friends.filter(friendId => friendId !== id)
+        }
+      }
+    })
+    setGroups(newGroups)
+    saveObjs(Constants.GROUPS_KEY, newGroups)
   }
 
   const handleRemoveFriend = (friend) => {
@@ -51,12 +69,12 @@ const App = () => {
     saveObjs(Constants.GROUPS_KEY, [...groups, group])
   }
 
-  const handleEditGroup = (ids, id) => {
+  const handleEditGroup = (friendIds, id) => {
     let newGroups = [...groups]
 
     for (index in groups) {
       if (groups[index].id == id) {
-        newGroups[index].friends = ids
+        newGroups[index].friends = friendIds
         break
       }
     }
