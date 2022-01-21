@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   StyleSheet,
   View,
@@ -14,29 +14,27 @@ export default function AddFriendModal(props) {
     <HalfModal visible={props.visible} onClose={props.onClose} >
       <TextInput
         style={styles.input}
-        onChangeText={setName}
-        onEndEditing={() => handleSubmit()}
-        value={name}
+        onChangeText={props.setName}
+        value={props.name}
         placeholder={"New friend"}
         autoFocus={true}
       />
       <ToggleButton
         options={Constants.INTIMACIES}
-        index={intimacyIndex}
-        onOptionChange={setIntimacyIndex}
+        index={props.intimacyIndex}
+        onOptionChange={props.setIntimacyIndex}
       />
       <View style={{ flexDirection:"row" }}>
         <Button
-          style={styles.saveButton}
           title="Cancel"
-          onPress={() => props.onClose()}
+          onPress={props.onClose}
         />
         <Button
-          style={styles.saveButton}
           title="Save" disabled={false}
-          onPress={() => handleSubmit()}
+          onPress={props.handleSubmit}
         />
       </View>
+      {props.children}
     </HalfModal>
   )
 }

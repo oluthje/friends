@@ -2,15 +2,10 @@ import React, { useState, useEffect } from 'react'
 import {
   StyleSheet,
   View,
-  TextInput,
-  Button,
-  Text,
-  TouchableHighlight,
 } from 'react-native'
 import * as Constants from "../../constants.js"
-import HalfModal from "./HalfModal.js"
-import ToggleButton from "./ToggleButton.js"
 import ToggleableTag from "../ToggleableTag.js"
+import FriendModal from "./FriendModal.js"
 
 export default function EditFriendModal(props) {
   const [name, setName] = useState("")
@@ -47,32 +42,15 @@ export default function EditFriendModal(props) {
   }
 
   return (
-    <HalfModal visible={props.visible} onClose={props.onClose} >
-      <TextInput
-        style={styles.input}
-        onChangeText={setName}
-        onEndEditing={() => handleSubmit()}
-        value={name}
-        placeholder={"Edit friend"}
-        autoFocus={true}
-      />
-      <ToggleButton
-        options={Constants.INTIMACIES}
-        index={intimacyIndex}
-        onOptionChange={setIntimacyIndex}
-      />
-      <View style={{ flexDirection:"row" }}>
-        <Button
-          style={styles.saveButton}
-          title="Cancel"
-          onPress={() => props.onClose()}
-        />
-        <Button
-          style={styles.saveButton}
-          title="Save" disabled={false}
-          onPress={() => handleSubmit()}
-        />
-      </View>
+    <FriendModal
+      visible={props.visible}
+      onClose={props.onClose}
+      name={name}
+      setName={setName}
+      intimacyIndex={intimacyIndex}
+      setIntimacyIndex={setIntimacyIndex}
+      handleSubmit={handleSubmit}
+    >
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', margin: 20 }}>
         {friend.groups ? friend.groups.map((group) =>
           <ToggleableTag
@@ -82,21 +60,15 @@ export default function EditFriendModal(props) {
             id={group.id}
             style={{ marginHorizontal: 2 }}
             onTagToggle={handleTagToggle}
-            selected={selectedGroupIds.includes(group.id)}
+            selected={selectedGroupIds ? selectedGroupIds.includes(group.id) : false}
           />
         ) : null}
       </View>
-    </HalfModal>
+    </FriendModal>
   )
 }
 
 const styles = StyleSheet.create({
-  input: {
-    height: 50,
-    width: '100%',
-    paddingTop: 30,
-    paddingHorizontal: 30,
-  },
   groupTagContainer: {
     flex: 1,
     flexDirection: 'row',

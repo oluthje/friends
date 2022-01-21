@@ -22,10 +22,19 @@ export default function FriendsTab(props) {
   const groups = commonProps.groups
 
   const handleEditFriend = (name, intimacy, id) => {
+    let selectedGroupIds = []
+    groups.forEach((group) => {
+      if (group.friends.includes(id)) {
+        selectedGroupIds.push(group.id)
+      }
+    })
+
     setFriendProps({
       name: name,
       intimacy: intimacy,
       id: id,
+      groups: groups,
+      selectedGroupIds: selectedGroupIds,
     })
     setShowEditModal(true)
   }

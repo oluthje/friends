@@ -25,7 +25,7 @@ const App = () => {
   }
 
   const handleEditFriend = (name, intimacy, id, groupIds) => {
-    
+
     // update friend
     let newFriends = [...friends]
     for (index in friends) {
@@ -35,12 +35,13 @@ const App = () => {
         break
       }
     }
-
     setFriends(newFriends)
     saveObjs(Constants.FRIENDS_KEY, newFriends)
 
-    // update groups
-    // for each group, if group doesn't have (friend)id add friend. Else remove friend
+    /*
+    update groups for each group, if group doesn't have (friend)id add friend.
+    Else remove friend
+    */
     let newGroups = [...groups]
     newGroups.forEach((group) => {
       if (groupIds.includes(group.id)) {
