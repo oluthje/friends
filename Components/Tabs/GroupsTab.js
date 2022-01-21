@@ -7,7 +7,7 @@ import {
   Alert,
 } from 'react-native';
 import AddGroupModal from "../Modals/AddGroupModal.js"
-import SelectFriendsModal from "../Modals/SelectFriendsModal.js"
+import EditGroupModal from "../Modals/EditGroupModal.js"
 import Card from "../Card"
 import * as Constants from "../../constants.js"
 import ActionButton from 'react-native-action-button'
@@ -81,14 +81,14 @@ export default function GroupsTab({ commonProps }) {
         onSubmit={commonProps.onAddGroup}
         placeholder="New Group"
       />
-      <SelectFriendsModal
+      <EditGroupModal
         visible={showFriendsModal}
         onClose={() => setShowFriendsModal(false)}
         onSubmit={commonProps.onEditGroup}
         friendIds={friendIds}
         setFriendIds={setFriendIds}
         friends={commonProps.friends}
-        groupId={selectedGroup ? selectedGroup.id : null}
+        group={selectedGroup ? selectedGroup : false}
       />
       <ActionButton
         buttonColor="rgba(231,76,60,1)"

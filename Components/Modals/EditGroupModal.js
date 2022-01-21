@@ -1,23 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   StyleSheet,
   View,
   TextInput,
-  Button,
   Text,
   TouchableOpacity,
 } from 'react-native'
 import * as Constants from "../../constants.js"
-import HalfModal from "./HalfModal.js"
+import GroupModal from "./GroupModal.js"
 
-export default function SelectFriendsModal(props) {
+export default function EditGroupModal(props) {
+  const [name, setName] = useState()
+  const [color, setColor] = useState(Constants.COLORS[0])
   const friendIds = props.friendIds
   const friends = props.friends
   const setFriendIds = props.setFriendIds
-  const groupId = props.groupId
+  const group = props.group
+
+  useEffect(() => {
+    setName(group.name)
+    setColor(group.color)
+  }, [group])
 
   const handleSubmit = () => {
-    props.onSubmit(friendIds, groupId)
+    props.onSubmit(name, color, group.id, friendIds)
     props.onClose()
   }
 
@@ -52,23 +58,20 @@ export default function SelectFriendsModal(props) {
   }
 
   return (
-    <HalfModal visible={props.visible} onClose={props.onClose} >
+    <GroupModal
+      visible={props.visible}
+      onClose={props.onClose}
+      name={name}
+      setName={setName}
+      handleSubmit={handleSubmit}
+      handleSetColor={setColor}
+    >
       <View style={styles.container}>
         {items(true)}
         <View style={styles.dividor} />
         {items(false)}
-        <View style={{ flexDirection:"row" }}>
-          <Button
-            title="Cancel"
-            onPress={() => props.onClose()}
-          />
-          <Button
-            title="Save" disabled={false}
-            onPress={() => handleSubmit()}
-          />
-        </View>
       </View>
-    </HalfModal>
+    </GroupModal>
   )
 }
 

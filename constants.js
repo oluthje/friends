@@ -1,3 +1,6 @@
+import {
+  PlatformColor,
+} from 'react-native'
 import uuid from 'react-native-uuid'
 
 // data storage keys
@@ -16,6 +19,16 @@ export const INTIMACIES = [
 	INTIMACY.NEW,
 ]
 export const CARD_TITLE_FONTSIZE = 16
+export const COLORS = [
+  PlatformColor('systemRedColor'),
+  PlatformColor('systemOrangeColor'),
+  PlatformColor('systemYellowColor'),
+  PlatformColor('systemGreenColor'),
+  PlatformColor('systemTealColor'),
+  PlatformColor('systemBlueColor'),
+  PlatformColor('systemIndigoColor'),
+  PlatformColor('systemPurpleColor'),
+]
 
 // object creation
 export function Group(name, color, friends) {

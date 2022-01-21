@@ -70,11 +70,13 @@ const App = () => {
     saveObjs(Constants.GROUPS_KEY, [...groups, group])
   }
 
-  const handleEditGroup = (friendIds, id) => {
+  const handleEditGroup = (name, color, id, friendIds) => {
     let newGroups = [...groups]
 
     for (index in groups) {
       if (groups[index].id == id) {
+        newGroups[index].name = name
+        newGroups[index].color = color
         newGroups[index].friends = friendIds
         break
       }
