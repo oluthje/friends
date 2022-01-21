@@ -89,6 +89,7 @@ export default function elementList(props) {
   }
 
   const renderHiddenItem = () => {
+    if (props.disabled) return
     return (
       <View style={styles.rowBack}>
         <View style={[styles.backRightBtn, styles.backRightBtnRight]}>

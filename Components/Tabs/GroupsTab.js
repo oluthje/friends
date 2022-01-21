@@ -5,6 +5,8 @@ import {
   View,
   Button,
   Alert,
+  FlatList,
+  SafeAreaView,
 } from 'react-native';
 import AddGroupModal from "../Modals/AddGroupModal.js"
 import EditGroupModal from "../Modals/EditGroupModal.js"
@@ -51,30 +53,32 @@ export default function GroupsTab({ commonProps }) {
     return friends
   }
 
-  const cards = groups.map((group) =>
-    <Card onLongPress={() => createGroupDeleteAlert(group)}>
+  const renderCard = ({ item, index }) => (
+    <Card onLongPress={() => createGroupDeleteAlert(item)} key={index} >
       <View style={styles.oneLine} >
-        <Text style={{ fontWeight: 'bold', fontSize: Constants.CARD_TITLE_FONTSIZE }} >{group.name}</Text>
-        <Tag color={group.color} width="13%" />
+        <Text style={{ fontWeight: 'bold', fontSize: Constants.CARD_TITLE_FONTSIZE }} >{item.name}</Text>
+        <Tag color={item.color} width="13%" />
       </View>
-      <View>
+      <View style={styles.oneLine}>
         <FriendsList
           disabled={true}
-          elements={getFriendsByIds(group.friends)}
+          elements={getFriendsByIds(item.friends)}
         />
         <View style={{alignSelf: "flex-end"}} >
-          <Button title={"Edit"} onPress={() => setUpFriendsModal(group)} ></Button>
+          <Button title={"Edit"} onPress={() => setUpFriendsModal(item)} ></Button>
         </View>
       </View>
     </Card>
-  )
+  );
 
   return (
     <View style={styles.container} >
       {groups.length === 0 ? <Text style={styles.hintText} >Try adding a group!</Text> : null}
-      <View style={styles.cardsContainer} >
-        {cards}
-      </View>
+      <FlatList
+        data={groups}
+        renderItem={renderCard}
+        style={styles.cardsContainer}
+      />
       <AddGroupModal
         visible={showGroupModal}
         onClose={() => setShowGroupModal(false)}
