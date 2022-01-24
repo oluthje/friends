@@ -1,4 +1,5 @@
 import {
+  StyleSheet,
   PlatformColor,
 } from 'react-native'
 import uuid from 'react-native-uuid'
@@ -29,6 +30,11 @@ export const COLORS = [
   PlatformColor('systemIndigoColor'),
   PlatformColor('systemPurpleColor'),
 ]
+export const THEME = {
+  HEADER: "#6ECB63",
+  BACKGROUND: "#FBF4E9",
+  BUTTON: "#6ECB63",
+}
 
 // object creation
 export function Group(name, color, friends) {

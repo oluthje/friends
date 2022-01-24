@@ -3,12 +3,14 @@ import {
   StyleSheet,
   Text,
   TouchableHighlight,
+  View,
 } from 'react-native'
+import * as Consts from "./../constants.js"
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default function ToggleableTag(props) {
   const containerStyle = props.selected ? styles.containerSelected : styles.containerUnselected
   const titleStyle = props.selected ? styles.titleSelected : styles.titleUnselected
-  const title = props.selected ? "✓ " + props.title : "+ " + props.title
 
   return (
     <TouchableHighlight
@@ -16,7 +18,14 @@ export default function ToggleableTag(props) {
       underlayColor="#DDDDDD"
       onPress={() => props.onTagToggle(props.id)}
     >
-      <Text style={[styles.title, titleStyle]} >{title}</Text>
+      <View style={styles.oneLine} >
+        <MaterialCommunityIcons
+          name={props.selected ? "check-bold" : "plus"}
+          size={20}
+          color={props.selected ? "white" : props.color}
+        />
+        <Text style={[styles.title, titleStyle]} >{props.selected ? props.title : props.title}</Text>
+      </View>
     </TouchableHighlight>
   )
 }
@@ -26,10 +35,10 @@ const styles = StyleSheet.create({
     padding: 6,
     borderRadius: 30,
     margin: 2,
-    borderColor: 'lightblue',
+    borderColor: Consts.THEME.BUTTON,
   },
   containerSelected: {
-    backgroundColor: 'lightblue',
+    backgroundColor: Consts.THEME.BUTTON,
     borderWidth: 1,
   },
   containerUnselected: {
@@ -43,6 +52,10 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   titleUnselected: {
-    color: 'lightblue',
+    color: Consts.THEME.BUTTON,
+  },
+  oneLine: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 })

@@ -57,7 +57,7 @@ export default function GroupsTab({ commonProps }) {
     <Card onLongPress={() => createGroupDeleteAlert(item)} key={index} >
       <View style={styles.oneLine} >
         <Text style={{ fontWeight: 'bold', fontSize: Constants.CARD_TITLE_FONTSIZE }} >{item.name}</Text>
-        <Tag color={item.color} width="13%" />
+        <Tag style={{ height: 19, margin: 0 }} color={item.color} width="10%" />
       </View>
       <View style={styles.oneLine}>
         <FriendsList
@@ -65,7 +65,7 @@ export default function GroupsTab({ commonProps }) {
           elements={getFriendsByIds(item.friends)}
         />
         <View style={{alignSelf: "flex-end"}} >
-          <Button title={"Edit"} onPress={() => setUpFriendsModal(item)} ></Button>
+          <Button title={"Edit"} color={Constants.THEME.BUTTON} onPress={() => setUpFriendsModal(item)} ></Button>
         </View>
       </View>
     </Card>
@@ -95,7 +95,7 @@ export default function GroupsTab({ commonProps }) {
         group={selectedGroup ? selectedGroup : false}
       />
       <ActionButton
-        buttonColor="rgba(231,76,60,1)"
+        buttonColor={Constants.THEME.BUTTON}
         onPress={() => setShowGroupModal(true)}
       />
     </View>

@@ -61,6 +61,7 @@ export default function EditFriendModal(props) {
             style={{ marginHorizontal: 2 }}
             onTagToggle={handleTagToggle}
             selected={selectedGroupIds ? selectedGroupIds.includes(group.id) : false}
+            color={Constants.THEME.BUTTON}
           />
         ) : null}
       </View>

@@ -100,7 +100,7 @@ export default function FriendsTab(props) {
         friend={friendProps}
       />
       <ActionButton
-        buttonColor="rgba(231,76,60,1)"
+        buttonColor={Constants.THEME.BUTTON}
         onPress={() => setShowAddModal(true)}
       />
     </View>

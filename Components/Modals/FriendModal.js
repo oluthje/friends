@@ -4,6 +4,7 @@ import {
   View,
   TextInput,
   Button,
+  Text,
 } from 'react-native'
 import * as Constants from "../../constants.js"
 import HalfModal from "./HalfModal.js"
@@ -26,10 +27,12 @@ export default function AddFriendModal(props) {
       />
       <View style={{ flexDirection:"row" }}>
         <Button
+          color={Constants.THEME.BUTTON}
           title="Cancel"
           onPress={props.onClose}
         />
         <Button
+          color={Constants.THEME.BUTTON}
           title="Save" disabled={false}
           onPress={props.handleSubmit}
         />

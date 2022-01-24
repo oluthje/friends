@@ -8,6 +8,7 @@ import { saveObjs, getSavedObjs } from "./datastorage.js"
 import * as Constants from "./constants.js"
 import FriendsTab from "./Components/Tabs/FriendsTab"
 import GroupsTab from "./Components/Tabs/GroupsTab"
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const App = () => {
   const [friends, setFriends] = useState([])
@@ -114,9 +115,39 @@ function Tabs({ commonProps }) {
   const Tab = createBottomTabNavigator()
 
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Friends" children={props => <FriendsTab commonProps={commonProps} {...props} />} />
-      <Tab.Screen name="Groups" children={props => <GroupsTab commonProps={commonProps} {...props} />} />
+    <Tab.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: Constants.THEME.HEADER,
+        },
+        headerTitleStyle: {
+          color: "white",
+        },
+        tabBarStyle: {
+          backgroundColor: Constants.THEME.HEADER,
+        },
+        tabBarActiveTintColor: "white",
+        tabBarInactiveTintColor: "#555",
+      }}
+    >
+      <Tab.Screen
+        name="Friends"
+        children={props => <FriendsTab commonProps={commonProps} {...props} />}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+        }}
+        />
+      <Tab.Screen
+        name="Groups"
+        children={props => <GroupsTab commonProps={commonProps} {...props} />}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="format-list-bulleted" color={color} size={size} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   )
 }

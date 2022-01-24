@@ -78,8 +78,8 @@ export default function elementList(props) {
               <Text>{item.title}</Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
-              {props.tags ? props.tags[item.id].map((tag) =>
-                <Tag title={tag[0]} color={tag[1]} style={{ marginHorizontal: 2 }} />
+              {props.tags ? props.tags[item.id].map((tag, index) =>
+                <Tag title={tag[0]} key={index} color={tag[1]} style={{ marginHorizontal: 2 }} />
               ) : null}
             </View>
           </View>

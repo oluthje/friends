@@ -14,6 +14,6 @@ export default function ToggleButton(props) {
   }
 
   return (
-    <Button onPress={() => toggleOptions()} title={options[index]} />
+    <Button onPress={() => toggleOptions()} title={options[index]} color={Constants.THEME.BUTTON} />
   )
 }

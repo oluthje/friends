@@ -9,6 +9,7 @@ import {
 import * as Constants from "../../constants.js"
 import HalfModal from "./HalfModal.js"
 import ColorPalette from 'react-native-color-palette'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default function GroupModal(props) {
   return (
@@ -23,10 +24,12 @@ export default function GroupModal(props) {
       <View style={{ flexDirection:"row" }}>
         <Button
           title="Cancel"
+          color={Constants.THEME.BUTTON}
           onPress={props.onClose}
         />
         <Button
           title="Save" disabled={false}
+          color={Constants.THEME.BUTTON}
           onPress={props.handleSubmit}
         />
       </View>
@@ -37,7 +40,7 @@ export default function GroupModal(props) {
           colors={Constants.COLORS}
           title={""}
           icon={
-            <Text>√</Text>
+            <MaterialCommunityIcons name="check" size={20} />
           }
         />
       </View>
