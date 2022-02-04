@@ -1203,6 +1203,14 @@
   "resolved" "https://registry.npmjs.org/@react-navigation/elements/-/elements-1.2.1.tgz"
   "version" "1.2.1"
 
+"@react-navigation/material-top-tabs@^6.1.1":
+  "integrity" "sha512-9XsLIPVJJweBRqVznnRYzCIRGMrPKfCzyMjHbBxHuKQIxGZLkUcHVaQDKZZFRkXtvWxPF8ZwFJcuSs0GZ9r4dA=="
+  "resolved" "https://registry.npmjs.org/@react-navigation/material-top-tabs/-/material-top-tabs-6.1.1.tgz"
+  "version" "6.1.1"
+  dependencies:
+    "color" "^3.1.3"
+    "warn-once" "^0.1.0"
+
 "@react-navigation/native-stack@^6.2.5":
   "integrity" "sha512-XCtwl4LEr06nzxMG4aXbYfbO/pAjyhGOR3QtBVBq/uGfVGkeK8utKUe925reqd1x099CiEfSJLpgeR2KzzYp+Q=="
   "resolved" "https://registry.npmjs.org/@react-navigation/native-stack/-/native-stack-6.2.5.tgz"
@@ -5548,6 +5556,11 @@
     "lodash" "^4.17.21"
     "prop-types" "^15.7.2"
 
+"react-native-pager-view@*", "react-native-pager-view@^5.4.9", "react-native-pager-view@>= 4.0.0":
+  "integrity" "sha512-D6tzxpwMGdl6CXgtskGWhKRc5cJakCazESRGt7PkqnpyiH3N35ft1KmR82pCSQetAFlytFiToeu3a/dG5CELvA=="
+  "resolved" "https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-5.4.9.tgz"
+  "version" "5.4.9"
+
 "react-native-reanimated@>= 1.0.0":
   "integrity" "sha512-MSW2Uzj+Chd6qGS1gqNeF/U2l+xk44cD0PnNbU3v1paDI2/HAlzPhMtEy2WWtz83RZ4FtDuI/0o935SjJ7iSYg=="
   "resolved" "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-2.3.0.tgz"
@@ -5585,6 +5598,11 @@
   "integrity" "sha512-SjAEuHc/D6ovp+RjDUhfNmw6NYOntdT7+GFhfMGfP/BSLMuMWynpzJy9GKQeyB8sI78T6Lzip21TVbongOg1Mw=="
   "resolved" "https://registry.npmjs.org/react-native-swipe-list-view/-/react-native-swipe-list-view-3.2.9.tgz"
   "version" "3.2.9"
+
+"react-native-tab-view@^3.1.1", "react-native-tab-view@>= 3.0.0":
+  "integrity" "sha512-M5pRN6utQfytKWoKlKVzg5NbkYu308qNoW1khGTtEOTs1k14p2dHJ/BWOJoJYHKbPVUyZldbG9MFT7gUl4YHnw=="
+  "resolved" "https://registry.npmjs.org/react-native-tab-view/-/react-native-tab-view-3.1.1.tgz"
+  "version" "3.1.1"
 
 "react-native-uuid@^2.0.1":
   "integrity" "sha512-cptnoIbL53GTCrWlb/+jrDC6tvb7ypIyzbXNJcpR3Vab0mkeaaVd5qnB3f0whXYzS+SMoSQLcUUB0gEWqkPC0g=="

@@ -74,11 +74,13 @@ export default function GroupsTab({ commonProps }) {
   return (
     <View style={styles.container} >
       {groups.length === 0 ? <Text style={styles.hintText} >Try adding a group!</Text> : null}
-      <FlatList
-        data={groups}
-        renderItem={renderCard}
-        style={styles.cardsContainer}
-      />
+      <SafeAreaView style={styles.container} >
+        <FlatList
+          data={groups}
+          renderItem={renderCard}
+          style={styles.cardsContainer}
+        />
+      </SafeAreaView>
       <AddGroupModal
         visible={showGroupModal}
         onClose={() => setShowGroupModal(false)}

@@ -4,6 +4,7 @@ import {
 } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { saveObjs, getSavedObjs } from "./datastorage.js"
 import * as Constants from "./constants.js"
 import FriendsTab from "./Components/Tabs/FriendsTab"
@@ -112,20 +113,17 @@ const App = () => {
 }
 
 function Tabs({ commonProps }) {
-  const Tab = createBottomTabNavigator()
+  const Tab = createMaterialTopTabNavigator()
 
   return (
     <Tab.Navigator
+      tabBarPosition={'bottom'}
       screenOptions={{
-        headerStyle: {
-          backgroundColor: Constants.THEME.HEADER,
-        },
-        headerTitleStyle: {
-          color: "white",
-        },
-        tabBarStyle: {
-          backgroundColor: Constants.THEME.HEADER,
-        },
+        headerStyle: { backgroundColor: Constants.THEME.HEADER },
+        headerTitleStyle: { color: "white" },
+        tabBarStyle: { backgroundColor: Constants.THEME.HEADER },
+        tabBarIndicatorStyle: { height: 0 },
+        tabBarLabelStyle: { marginBottom: 10 },
         tabBarActiveTintColor: "white",
         tabBarInactiveTintColor: "#555",
       }}
@@ -135,7 +133,7 @@ function Tabs({ commonProps }) {
         children={props => <FriendsTab commonProps={commonProps} {...props} />}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
+            <MaterialCommunityIcons name="home" color={color} size={25} />
           ),
         }}
         />
@@ -144,7 +142,7 @@ function Tabs({ commonProps }) {
         children={props => <GroupsTab commonProps={commonProps} {...props} />}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="format-list-bulleted" color={color} size={size} />
+            <MaterialCommunityIcons name="format-list-bulleted" color={color} size={25} />
           ),
         }}
       />

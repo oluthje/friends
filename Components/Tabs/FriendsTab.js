@@ -70,11 +70,11 @@ export default function FriendsTab(props) {
 
   const renderCard = ({ item, index }) => (
     <Card title={item[0].intimacy} key={index}>
-      <View style={{ width: "20%", backgroundColor: "whitesmoke", padding: 4, flexDirection: "row", borderRadius: 5 }} >
+{/*      <View style={{ width: "20%", backgroundColor: "whitesmoke", padding: 4, flexDirection: "row", borderRadius: 5 }} >
         <View style={{ backgroundColor: "red", padding: 8, marginRight: 5, borderRadius: 30 }}>
         </View>
         <Text>Climb</Text>
-      </View>
+      </View>*/}
       <FriendsList
         elements={item}
         tags={getFriendGroupTags()}
