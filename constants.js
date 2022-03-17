@@ -35,6 +35,22 @@ export const THEME = {
   BACKGROUND: "#FBF4E9",
   BUTTON: "#6ECB63",
 }
+export const CHECK_IN_INTERVAL_NAMES = {
+  0: "No Check In",
+  1: "1 Day",
+  2: "Weekly",
+  3: "Monthly",
+  4: "Quarterly",
+  5: "Yearly",
+}
+export const CHECK_IN_INTERVAL_DAYS = {
+  0: 0,
+  1: 1,
+  2: 7,
+  3: 30,
+  4: 91,
+  5: 365,
+}
 
 // object creation
 export function Group(name, color, friends) {
@@ -43,9 +59,12 @@ export function Group(name, color, friends) {
   this.friends = friends
   this.id = uuid.v4()
 }
-export function Friend(name, intimacy, groups) {
+export function Friend(name, intimacy, groups, checkInInterval, checkInStartDate) {
   this.name = name
   this.intimacy = intimacy
   this.groups = groups
   this.id = uuid.v4()
+  this.checkInInterval = checkInInterval
+  this.checkInStartDate = checkInStartDate
+  this.checkInDates = []
 }

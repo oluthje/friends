@@ -21,7 +21,7 @@ export default function FriendsTab(props) {
   const friends = commonProps.friends
   const groups = commonProps.groups
 
-  const handleEditFriend = (name, intimacy, id) => {
+  const handleEditFriend = (name, intimacy, id, checkInInterval) => {
     let selectedGroupIds = []
     groups.forEach((group) => {
       if (group.friends.includes(id)) {
@@ -35,6 +35,7 @@ export default function FriendsTab(props) {
       id: id,
       groups: groups,
       selectedGroupIds: selectedGroupIds,
+      checkInInterval: checkInInterval,
     })
     setShowEditModal(true)
   }
@@ -70,11 +71,6 @@ export default function FriendsTab(props) {
 
   const renderCard = ({ item, index }) => (
     <Card title={item[0].intimacy} key={index}>
-{/*      <View style={{ width: "20%", backgroundColor: "whitesmoke", padding: 4, flexDirection: "row", borderRadius: 5 }} >
-        <View style={{ backgroundColor: "red", padding: 8, marginRight: 5, borderRadius: 30 }}>
-        </View>
-        <Text>Climb</Text>
-      </View>*/}
       <FriendsList
         elements={item}
         tags={getFriendGroupTags()}

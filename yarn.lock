@@ -986,6 +986,11 @@
     "@types/yargs" "^16.0.0"
     "chalk" "^4.0.0"
 
+"@ptomasroos/react-native-multi-slider@^2.2.2":
+  "integrity" "sha512-HWyCnRD3Z3SbHK2FLWYmBBqd1B4iXipeKv1+AK0FoY/CElEDTEixHE8hN60TsqxalPrznn798LE2Q4tHuCiyaA=="
+  "resolved" "https://registry.npmjs.org/@ptomasroos/react-native-multi-slider/-/react-native-multi-slider-2.2.2.tgz"
+  "version" "2.2.2"
+
 "@react-native-async-storage/async-storage@^1.15.14":
   "integrity" "sha512-eJF2horabXazwszCyyXDe4w7sBSWlB0WPA8akKXuN2n7WXKHYeQJPN41lS9OahrhSZuZwqftNFE9VWgPXA8wyA=="
   "resolved" "https://registry.npmjs.org/@react-native-async-storage/async-storage/-/async-storage-1.15.14.tgz"

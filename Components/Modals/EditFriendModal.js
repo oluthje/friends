@@ -11,11 +11,13 @@ export default function EditFriendModal(props) {
   const [name, setName] = useState("")
   const [intimacyIndex, setIntimacyIndex] = useState(0)
   const [selectedGroupIds, setSelectedGroupIds] = useState([])
+  const [checkInInterval, setCheckInInterval] = useState()
   const friend = props.friend
 
   useEffect(() => {
     setName(friend.name)
     setSelectedGroupIds(friend.selectedGroupIds)
+    setCheckInInterval(friend.checkInInterval ? friend.checkInInterval : 0)
 
     for (index in Constants.INTIMACIES) {
       if (Constants.INTIMACIES[index] == friend.intimacy) {
@@ -27,7 +29,7 @@ export default function EditFriendModal(props) {
 
   const handleSubmit = () => {
     if (name !== "") {
-      props.onSubmit(name, Constants.INTIMACIES[intimacyIndex], friend.id, selectedGroupIds)
+      props.onSubmit(name, Constants.INTIMACIES[intimacyIndex], friend.id, selectedGroupIds, checkInInterval)
       props.onClose()
       setName("")
     }
@@ -49,6 +51,8 @@ export default function EditFriendModal(props) {
       setName={setName}
       intimacyIndex={intimacyIndex}
       setIntimacyIndex={setIntimacyIndex}
+      checkInInterval={checkInInterval}
+      setCheckInInterval={setCheckInInterval}
       handleSubmit={handleSubmit}
     >
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', margin: 20 }}>

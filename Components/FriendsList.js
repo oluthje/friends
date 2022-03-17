@@ -29,6 +29,7 @@ export default function elementList(props) {
         title: element.name,
         value: new Animated.Value(1),
         intimacy: element.intimacy,
+        checkInInterval: element.checkInInterval,
         id: element.id,
       })))
     }
@@ -36,6 +37,10 @@ export default function elementList(props) {
 
   const onSwipeValueChange = swipeData => {
     const { key, value } = swipeData
+    deleteListItem(key, value)
+  }
+
+  const deleteListItem = (key, value) => {
     if (value < -Dimensions.get('window').width && !animationIsRunning) {
       animationIsRunning = true
       Animated.timing(listData[key].value, {
@@ -52,7 +57,7 @@ export default function elementList(props) {
 
   const handleItemPress = (item) => {
     if (!props.disabled) {
-      props.onItemPress(item.title, item.intimacy, item.id)
+      props.onItemPress(item.title, item.intimacy, item.id, item.checkInInterval)
     }
   }
 

@@ -9,6 +9,7 @@ import { saveObjs, getSavedObjs } from "./datastorage.js"
 import * as Constants from "./constants.js"
 import FriendsTab from "./Components/Tabs/FriendsTab"
 import GroupsTab from "./Components/Tabs/GroupsTab"
+import CheckInsTab from "./Components/Tabs/CheckInsTab"
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const App = () => {
@@ -20,13 +21,13 @@ const App = () => {
     getSavedObjs(Constants.GROUPS_KEY, setGroups)
   }, [])
 
-  const handleAddFriend = (name, intimacy) => {
-    var friend = new Constants.Friend(name, intimacy, [])
+  const handleAddFriend = (name, intimacy, checkInInterval) => {
+    var friend = new Constants.Friend(name, intimacy, [], checkInInterval, new Date())
     setFriends(friends => [...friends, friend])
     saveObjs(Constants.FRIENDS_KEY, [...friends, friend])
   }
 
-  const handleEditFriend = (name, intimacy, id, groupIds) => {
+  const handleEditFriend = (name, intimacy, id, groupIds, checkInInterval) => {
 
     // update friend
     let newFriends = [...friends]
@@ -34,6 +35,10 @@ const App = () => {
       if (friends[index].id == id) {
         newFriends[index].name = name
         newFriends[index].intimacy = intimacy
+        if (checkInInterval != newFriends[index].checkInInterval) {
+          newFriends[index].checkInInterval = checkInInterval
+          newFriends[index].checkInStartDate = new Date()
+        }
         break
       }
     }
@@ -118,6 +123,7 @@ function Tabs({ commonProps }) {
   return (
     <Tab.Navigator
       tabBarPosition={'bottom'}
+      initialRouteName={'Friends'}
       screenOptions={{
         headerStyle: { backgroundColor: Constants.THEME.HEADER },
         headerTitleStyle: { color: "white" },
@@ -128,6 +134,15 @@ function Tabs({ commonProps }) {
         tabBarInactiveTintColor: "#555",
       }}
     >
+      <Tab.Screen
+        name="Check Ins"
+        children={props => <CheckInsTab commonProps={commonProps} {...props} />}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="check" color={color} size={25} />
+          ),
+        }}
+      />
       <Tab.Screen
         name="Friends"
         children={props => <FriendsTab commonProps={commonProps} {...props} />}

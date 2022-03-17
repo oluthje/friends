@@ -9,8 +9,9 @@ import {
 import * as Constants from "../../constants.js"
 import HalfModal from "./HalfModal.js"
 import ToggleButton from "./ToggleButton.js"
+import MultiSlider from '@ptomasroos/react-native-multi-slider'
 
-export default function AddFriendModal(props) {
+export default function FriendModal(props) {
   return (
     <HalfModal visible={props.visible} onClose={props.onClose} >
       <TextInput
@@ -37,6 +38,14 @@ export default function AddFriendModal(props) {
           onPress={props.handleSubmit}
         />
       </View>
+      <MultiSlider
+        values={[props.checkInInterval]}
+        snapped={true}
+        showStepLabels={true}
+        optionsArray={Object.keys(Constants.CHECK_IN_INTERVAL_NAMES)}
+        onValuesChange={(values) => props.setCheckInInterval(values[0])}
+      />
+      <Text>{Constants.CHECK_IN_INTERVAL_NAMES[props.checkInInterval]}</Text>
       {props.children}
     </HalfModal>
   )
