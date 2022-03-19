@@ -77,6 +77,8 @@ const App = () => {
           const sameDates = dates.filter(date => new Date(date).toDateString() == new Date().toDateString())
           if (sameDates.length == 0) {
             friend.checkInDates = [...friend.checkInDates, new Date()]
+          } else {
+            friend.checkInDates.pop()
           }
         } else {
           friend.checkInDates = [new Date()]

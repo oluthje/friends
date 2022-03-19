@@ -87,10 +87,11 @@ export default function CheckInsTab(props) {
     }
   }
 
-  const renderItem = ({ item, index }) => {
+  const renderItem = ({item}, checkIn) => {
     const date = new Date(item.checkInStartDate)
     const deadline = addDays(item.checkInStartDate, Constants.CHECK_IN_INTERVAL_DAYS[item.checkInInterval ? item.checkInInterval : 0])
     const lastCheckIn = item.checkInDates ? new Date(item.checkInDates[item.checkInDates.length - 1]).toDateString() : 'None'
+    const title = checkIn ? "Check In" : "Undo Check In"
 
     return (
       <View style={{ marginBottom: 15 }}>
@@ -99,7 +100,7 @@ export default function CheckInsTab(props) {
         </View>
         <View style={styles.oneLine}>
           <Text>{timeLeft(deadline)}</Text>
-          <Button onPress={() => props.checkInProps.onCheckInFriend(item)} title="Check In" />
+          <Button onPress={() => props.checkInProps.onCheckInFriend(item)} title={title} />
         </View>
         <Text>Last check in: {lastCheckIn.slice(4)}</Text>
       </View>
@@ -110,7 +111,7 @@ export default function CheckInsTab(props) {
     <Card title={item}>
       <FlatList
         data={index == 0 ? uncheckedInFriends : checkedInFriends}
-        renderItem={renderItem}
+        renderItem={(item) => renderItem(item, index == 0)}
       />
     </Card>
   )
