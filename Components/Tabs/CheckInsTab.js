@@ -5,21 +5,23 @@ import {
   FlatList,
   Text,
   SafeAreaView,
+  Button,
 } from 'react-native'
-import ActionButton from 'react-native-action-button'
 import * as Constants from "../../constants.js"
-import FriendsList from "../FriendsList"
 import Card from "../Card.js"
-import AddFriendModal from "../Modals/AddFriendModal.js"
 import EditFriendModal from "../Modals/EditFriendModal.js"
 
 export default function CheckInsTab(props) {
-  const [showAddModal, setShowAddModal] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
-  const [friendProps, setFriendProps] = useState({})
+  const [uncheckedInFriends, setUncheckedInFriends] = useState([])
+  const [checkedInFriends, setCheckedInFriends] = useState([])
   const commonProps = props.commonProps
   const friends = commonProps.friends
   const groups = commonProps.groups
+
+  useEffect(() => {
+    setupCheckInFriends()
+  }, [friends])
 
   const handleEditFriend = (name, intimacy, id) => {
     let selectedGroupIds = []
@@ -39,15 +41,30 @@ export default function CheckInsTab(props) {
     setShowEditModal(true)
   }
 
-  const getCheckInFriends = () => {
-    var checkInFriends = []
-    for (key in friends) {
-      const friend = friends[key]
+  const setupCheckInFriends = () => {
+    var checkedInFriends = []
+    var uncheckedInFriends = []
+
+    friends.forEach(friend => {
       if (friend.checkInInterval != null && friend.checkInInterval != 0) {
-        checkInFriends.push(friend)
+
+        if (friend.checkInDates instanceof Array) {
+          
+          const lastCheckIn = friend.checkInDates[friend.checkInDates.length - 1]
+
+          if (new Date(lastCheckIn).toDateString() != new Date().toDateString()) {
+            uncheckedInFriends.push(friend)
+          } else {
+            checkedInFriends.push(friend)
+          }
+
+        } else {
+          uncheckedInFriends.push(friend)
+        }
       }
-    }
-    return checkInFriends
+    })
+    setCheckedInFriends(checkedInFriends)
+    setUncheckedInFriends(uncheckedInFriends)
   }
 
   function addDays(date, days) {
@@ -72,38 +89,40 @@ export default function CheckInsTab(props) {
 
   const renderItem = ({ item, index }) => {
     const date = new Date(item.checkInStartDate)
-
     const deadline = addDays(item.checkInStartDate, Constants.CHECK_IN_INTERVAL_DAYS[item.checkInInterval ? item.checkInInterval : 0])
+    const lastCheckIn = item.checkInDates ? new Date(item.checkInDates[item.checkInDates.length - 1]).toDateString() : 'None'
+
     return (
-      <View style={{ marginBottom: 15 }} >
-        <View style={styles.oneLine} >
+      <View style={{ marginBottom: 15 }}>
+        <View style={styles.oneLine}>
           <Text>{item.name}</Text>
         </View>
-        <View style={styles.oneLine} >
+        <View style={styles.oneLine}>
           <Text>{timeLeft(deadline)}</Text>
-          <Text>Last check in: </Text>
+          <Button onPress={() => props.checkInProps.onCheckInFriend(item)} title="Check In" />
         </View>
+        <Text>Last check in: {lastCheckIn.slice(4)}</Text>
       </View>
     )
   }
 
-  const checkInCard = () => (
-    <Card>
+  const renderCard = ({item, index}) => (
+    <Card title={item}>
       <FlatList
-        data={getCheckInFriends()}
+        data={index == 0 ? uncheckedInFriends : checkedInFriends}
         renderItem={renderItem}
       />
     </Card>
-  );
+  )
 
   return (
-    <View style={styles.container}>
-      <SafeAreaView>
-        <View style={styles.cardsContainer}>
-          {checkInCard()}
-        </View>
-      </SafeAreaView>
-    </View>
+    <SafeAreaView style={styles.container}>
+        <FlatList
+          data={["Check Ins", "Completed Check Ins"]}
+          renderItem={renderCard}
+          style={styles.cardsContainer}
+        />
+    </SafeAreaView>
   );
 };
 

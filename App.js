@@ -65,6 +65,29 @@ const App = () => {
     saveObjs(Constants.GROUPS_KEY, newGroups)
   }
 
+  const handleCheckInFriend = (checkInFriend) => {
+    let newFriends = [...friends]
+
+    // if todays date not present in checkins, add date
+    friends.forEach(friend => {
+      if (friend.id == checkInFriend.id) {
+        let dates = friend.checkInDates
+
+        if (dates instanceof Array) {
+          const sameDates = dates.filter(date => new Date(date).toDateString() == new Date().toDateString())
+          if (sameDates.length == 0) {
+            friend.checkInDates = [...friend.checkInDates, new Date()]
+          }
+        } else {
+          friend.checkInDates = [new Date()]
+        }
+
+        setFriends(newFriends)
+        saveObjs(Constants.FRIENDS_KEY, newFriends)
+      }
+    })
+  }
+
   const handleRemoveFriend = (friend) => {
     const new_friends = friends.filter(item => item.name !== friend.name)
     setFriends(new_friends)
@@ -112,12 +135,15 @@ const App = () => {
           onEditGroup: handleEditGroup,
           onRemoveGroup: handleRemoveGroup,
         }}
+        checkInProps={{
+          onCheckInFriend: handleCheckInFriend,
+        }}
       />
     </NavigationContainer>
   )
 }
 
-function Tabs({ commonProps }) {
+function Tabs({ commonProps, checkInProps }) {
   const Tab = createMaterialTopTabNavigator()
 
   return (
@@ -136,7 +162,7 @@ function Tabs({ commonProps }) {
     >
       <Tab.Screen
         name="Check Ins"
-        children={props => <CheckInsTab commonProps={commonProps} {...props} />}
+        children={props => <CheckInsTab checkInProps={checkInProps} commonProps={commonProps} {...props} />}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="check" color={color} size={25} />
