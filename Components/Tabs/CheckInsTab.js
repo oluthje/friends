@@ -5,11 +5,12 @@ import {
   FlatList,
   Text,
   SafeAreaView,
-  Button,
 } from 'react-native'
 import * as Constants from "../../constants.js"
 import Card from "../Card.js"
 import EditFriendModal from "../Modals/EditFriendModal.js"
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import Checkmark from "../Checkmark.js"
 
 export default function CheckInsTab(props) {
   const [showEditModal, setShowEditModal] = useState(false)
@@ -94,15 +95,19 @@ export default function CheckInsTab(props) {
     const title = checkIn ? "Check In" : "Undo Check In"
 
     return (
-      <View style={{ marginBottom: 15 }}>
-        <View style={styles.oneLine}>
-          <Text>{item.name}</Text>
+      <View style={styles.rowContainer}>
+        <View style={{ flexDirection: 'row' }}>
+          <Checkmark color={Constants.THEME.BUTTON} checked={!checkIn} onPress={() => props.checkInProps.onCheckInFriend(item)} />
+          <View>
+            <Text>{item.name}</Text>
+            <View style={styles.oneLine}>
+              <Text style={[styles.subtext, { color: Constants.THEME.BUTTON }]}>{timeLeft(deadline)}</Text>
+            </View>
+          </View>
         </View>
-        <View style={styles.oneLine}>
-          <Text>{timeLeft(deadline)}</Text>
-          <Button onPress={() => props.checkInProps.onCheckInFriend(item)} title={title} />
+        <View style={{ justifyContent: 'flex-end' }}>
+          <Text style={styles.subtext}>Last check in: {lastCheckIn.slice(4)}</Text>
         </View>
-        <Text>Last check in: {lastCheckIn.slice(4)}</Text>
       </View>
     )
   }
@@ -137,5 +142,13 @@ const styles = StyleSheet.create({
   oneLine: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  subtext: {
+    fontSize: 12,
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 5,
   },
 });
