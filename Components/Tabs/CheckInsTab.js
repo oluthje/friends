@@ -5,6 +5,8 @@ import {
   FlatList,
   Text,
   SafeAreaView,
+  TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native'
 import * as Constants from "../../constants.js"
 import Card from "../Card.js"
@@ -16,6 +18,7 @@ export default function CheckInsTab(props) {
   const [showEditModal, setShowEditModal] = useState(false)
   const [uncheckedInFriends, setUncheckedInFriends] = useState([])
   const [checkedInFriends, setCheckedInFriends] = useState([])
+  const [friendProps, setFriendProps] = useState({})
   const commonProps = props.commonProps
   const friends = commonProps.friends
   const groups = commonProps.groups
@@ -24,7 +27,7 @@ export default function CheckInsTab(props) {
     setupCheckInFriends()
   }, [friends])
 
-  const handleEditFriend = (name, intimacy, id) => {
+  const handleEditFriend = (name, intimacy, id, checkInInterval) => {
     let selectedGroupIds = []
     groups.forEach((group) => {
       if (group.friends.includes(id)) {
@@ -38,6 +41,7 @@ export default function CheckInsTab(props) {
       id: id,
       groups: groups,
       selectedGroupIds: selectedGroupIds,
+      checkInInterval: checkInInterval,
     })
     setShowEditModal(true)
   }
@@ -99,6 +103,12 @@ export default function CheckInsTab(props) {
   }
 
   function getDeadline(checkInStartDate, checkInInterval, checkInDates) {
+    // cases:
+    // 1) 
+
+
+    // what are the different cases?
+
     return addDays(checkInStartDate, Constants.CHECK_IN_INTERVAL_DAYS[checkInInterval ? checkInInterval : 0])
   }
 
@@ -108,20 +118,24 @@ export default function CheckInsTab(props) {
     const title = checkIn ? "Check In" : "Undo Check In"
 
     return (
-      <View style={styles.rowContainer}>
-        <View style={{ flexDirection: 'row' }}>
-          <Checkmark color={Constants.THEME.BUTTON} checked={!checkIn} onPress={() => props.checkInProps.onCheckInFriend(item)} />
-          <View>
-            <Text>{item.name}</Text>
-            <View style={styles.oneLine}>
-              <Text style={[styles.subtext, { color: Constants.THEME.BUTTON }]}>{getTimeLeft(deadline)}</Text>
+      <TouchableOpacity
+        onPress={() => handleEditFriend(item.name, item.intimacy, item.id, item.checkInInterval)}
+      >
+        <View style={styles.rowContainer}>
+          <View style={{ flexDirection: 'row' }}>
+            <Checkmark color={Constants.THEME.BUTTON} checked={!checkIn} onPress={() => props.checkInProps.onCheckInFriend(item)} />
+            <View>
+              <Text>{item.name}</Text>
+              <View style={styles.oneLine}>
+                <Text style={[styles.subtext, { color: Constants.THEME.BUTTON }]}>{getTimeLeft(deadline)}</Text>
+              </View>
             </View>
           </View>
+          <View style={{ justifyContent: 'flex-end' }}>
+            <Text style={styles.subtext}>Last check in: {lastCheckIn.slice(4)}</Text>
+          </View>
         </View>
-        <View style={{ justifyContent: 'flex-end' }}>
-          <Text style={styles.subtext}>Last check in: {lastCheckIn.slice(4)}</Text>
-        </View>
-      </View>
+      </TouchableOpacity>
     )
   }
 
@@ -136,11 +150,17 @@ export default function CheckInsTab(props) {
 
   return (
     <SafeAreaView style={styles.container}>
-        <FlatList
-          data={["Check Ins", "Completed Check Ins"]}
-          renderItem={renderCard}
-          style={styles.cardsContainer}
-        />
+      <FlatList
+        data={["Check Ins", "Completed Check Ins"]}
+        renderItem={renderCard}
+        style={styles.cardsContainer}
+      />
+      <EditFriendModal
+        visible={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        onSubmit={commonProps.onEditFriend}
+        friend={friendProps}
+      />
     </SafeAreaView>
   );
 };
