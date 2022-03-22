@@ -50,11 +50,16 @@ export default function CheckInsTab(props) {
       if (friend.checkInInterval != null && friend.checkInInterval != 0) {
 
         if (friend.checkInDates instanceof Array) {
-          
+
           const lastCheckIn = friend.checkInDates[friend.checkInDates.length - 1]
+
+          const deadline = getDeadline(friend.checkInStartDate, friend.checkInInterval)
+          const daysSinceCheckIn = (new Date() - lastCheckIn) / (24 * 60 * 60 * 1000)
 
           if (new Date(lastCheckIn).toDateString() != new Date().toDateString()) {
             uncheckedInFriends.push(friend)
+          // if (typeof lastCheckIn === 'undefined' || daysSinceCheckIn <= Constants.CHECK_IN_INTERVAL_DAYS[friend.checkInInterval]) {
+          //   uncheckedInFriends.push(friend)
           } else {
             checkedInFriends.push(friend)
           }
@@ -64,6 +69,7 @@ export default function CheckInsTab(props) {
         }
       }
     })
+
     setCheckedInFriends(checkedInFriends)
     setUncheckedInFriends(uncheckedInFriends)
   }
@@ -74,7 +80,11 @@ export default function CheckInsTab(props) {
     return result;
   }
 
-  function timeLeft(dateEnd) {
+  // check in lasts until timeLeft date
+  // if (deadline - lastCheckIn) < checkInIntervakl
+  //    checkin is completed
+
+  function getTimeLeft(dateEnd) {
     const days_left = (dateEnd - new Date()) / (24 * 60 * 60 * 1000)
 
     if (days_left < 7) {
@@ -88,9 +98,12 @@ export default function CheckInsTab(props) {
     }
   }
 
+  function getDeadline(checkInStartDate, checkInInterval, checkInDates) {
+    return addDays(checkInStartDate, Constants.CHECK_IN_INTERVAL_DAYS[checkInInterval ? checkInInterval : 0])
+  }
+
   const renderItem = ({item}, checkIn) => {
-    const date = new Date(item.checkInStartDate)
-    const deadline = addDays(item.checkInStartDate, Constants.CHECK_IN_INTERVAL_DAYS[item.checkInInterval ? item.checkInInterval : 0])
+    const deadline = getDeadline(item.checkInStartDate, item.checkInInterval)
     const lastCheckIn = item.checkInDates ? new Date(item.checkInDates[item.checkInDates.length - 1]).toDateString() : 'None'
     const title = checkIn ? "Check In" : "Undo Check In"
 
@@ -101,7 +114,7 @@ export default function CheckInsTab(props) {
           <View>
             <Text>{item.name}</Text>
             <View style={styles.oneLine}>
-              <Text style={[styles.subtext, { color: Constants.THEME.BUTTON }]}>{timeLeft(deadline)}</Text>
+              <Text style={[styles.subtext, { color: Constants.THEME.BUTTON }]}>{getTimeLeft(deadline)}</Text>
             </View>
           </View>
         </View>
