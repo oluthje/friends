@@ -102,7 +102,7 @@ export default function CheckInsTab(props) {
   }
 
   function getDeadline(checkInStartDate, checkInInterval, checkInDates) {
-    const lastCheckIn = checkInDates.length > 0 ? checkInDates[checkInDates.length - 1] : checkInStartDate
+    var lastCheckIn = checkInDates && checkInDates.length > 0 ? checkInDates[checkInDates.length - 1] : checkInStartDate
     const days = daysBetween(checkInStartDate, lastCheckIn)
     const interval = Constants.CHECK_IN_INTERVAL_DAYS[checkInInterval]
     return addDays(checkInStartDate, (Math.ceil(days / interval) + 1) * interval)
@@ -110,7 +110,7 @@ export default function CheckInsTab(props) {
 
   const renderItem = ({item}, checkIn) => {
     const deadline = getDeadline(item.checkInStartDate, item.checkInInterval, item.checkInDates)
-    const lastCheckIn = item.checkInDates.length > 0 ? new Date(item.checkInDates[item.checkInDates.length - 1]).toDateString() : null
+    const lastCheckIn = item.checkInDates && item.checkInDates.length > 0 ? new Date(item.checkInDates[item.checkInDates.length - 1]).toDateString() : null
     const title = checkIn ? "Check In" : "Undo Check In"
 
     return (
