@@ -57,13 +57,11 @@ export default function CheckInsTab(props) {
 
           const lastCheckIn = friend.checkInDates[friend.checkInDates.length - 1]
 
-          const deadline = getDeadline(friend.checkInStartDate, friend.checkInInterval)
+          const deadline = getDeadline(friend.checkInStartDate, friend.checkInInterval, friend.checkInDates)
           const daysSinceCheckIn = (new Date() - lastCheckIn) / (24 * 60 * 60 * 1000)
 
           if (new Date(lastCheckIn).toDateString() != new Date().toDateString()) {
             uncheckedInFriends.push(friend)
-          // if (typeof lastCheckIn === 'undefined' || daysSinceCheckIn <= Constants.CHECK_IN_INTERVAL_DAYS[friend.checkInInterval]) {
-          //   uncheckedInFriends.push(friend)
           } else {
             checkedInFriends.push(friend)
           }
@@ -84,37 +82,35 @@ export default function CheckInsTab(props) {
     return result;
   }
 
-  // check in lasts until timeLeft date
-  // if (deadline - lastCheckIn) < checkInIntervakl
-  //    checkin is completed
+  function daysBetween(dateStart, dateEnd) {
+    const days = (dateEnd - dateStart) / (24 * 60 * 60 * 1000)
+    return isNaN(days) ? 1 : days
+  }
 
   function getTimeLeft(dateEnd) {
-    const days_left = (dateEnd - new Date()) / (24 * 60 * 60 * 1000)
+    const days_left = daysBetween(new Date(), dateEnd)
 
     if (days_left < 7) {
-      return `${Math.round(days_left)} days left`
+      return `${Math.floor(days_left)} days left`
     } else if (days_left < 30) {
-      return `${Math.round(days_left / 7)} weeks left`
+      return `${Math.floor(days_left / 7)} weeks left`
     } else if (days_left < 365) {
-      return `${Math.round(days_left / 30)} months left`
+      return `${Math.floor(days_left / 30)} months left`
     } else {
-      return `${Math.round(days_left / 365)} years left`
+      return `${Math.floor(days_left / 365)} years left`
     }
   }
 
   function getDeadline(checkInStartDate, checkInInterval, checkInDates) {
-    // cases:
-    // 1) 
-
-
-    // what are the different cases?
-
-    return addDays(checkInStartDate, Constants.CHECK_IN_INTERVAL_DAYS[checkInInterval ? checkInInterval : 0])
+    const lastCheckIn = checkInDates.length > 0 ? checkInDates[checkInDates.length - 1] : checkInStartDate
+    const days = daysBetween(checkInStartDate, lastCheckIn)
+    const interval = Constants.CHECK_IN_INTERVAL_DAYS[checkInInterval]
+    return addDays(checkInStartDate, (Math.ceil(days / interval) + 1) * interval)
   }
 
   const renderItem = ({item}, checkIn) => {
-    const deadline = getDeadline(item.checkInStartDate, item.checkInInterval)
-    const lastCheckIn = item.checkInDates ? new Date(item.checkInDates[item.checkInDates.length - 1]).toDateString() : 'None'
+    const deadline = getDeadline(item.checkInStartDate, item.checkInInterval, item.checkInDates)
+    const lastCheckIn = item.checkInDates.length > 0 ? new Date(item.checkInDates[item.checkInDates.length - 1]).toDateString() : null
     const title = checkIn ? "Check In" : "Undo Check In"
 
     return (
@@ -132,7 +128,7 @@ export default function CheckInsTab(props) {
             </View>
           </View>
           <View style={{ justifyContent: 'flex-end' }}>
-            <Text style={styles.subtext}>Last check in: {lastCheckIn.slice(4)}</Text>
+            {lastCheckIn != null ? <Text style={styles.subtext}>Last check in: {lastCheckIn.slice(4)}</Text> : null}
           </View>
         </View>
       </TouchableOpacity>
